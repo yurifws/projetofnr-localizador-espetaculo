@@ -7,6 +7,7 @@ import { ListEventosCriadosPage } from '../pages/list-eventos-criados/list-event
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../providers/auth-service/auth-service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class MyApp {
   rootPage: any = LoginPage;
   pages: Array<{title: string, component: any, icon: string}>;
   activePage:any;
+  id:any;
 
   constructor(public platform: Platform, 
     public statusBar: StatusBar, 
@@ -30,6 +32,7 @@ export class MyApp {
     this.pages = [
       { title: 'Eventos', component: ListEventosPage, icon: 'home' },
       { title: 'Eventos Criados', component: ListEventosCriadosPage, icon: 'paper' },
+      { title: 'Editar Usuário', component: EditarUsuarioPage, icon: 'person' },
       { title: 'Sair', component: LoginPage, icon: 'exit' }
     ];
 
@@ -37,6 +40,7 @@ export class MyApp {
 
     const authObserver = this.afAuth.authState.subscribe((usuario:any) => {
       if(usuario){
+        this.id = usuario.uid;
         console.log('logado', usuario )
         this.rootPage = ListEventosPage;
         authObserver.unsubscribe();

@@ -22,8 +22,30 @@ export class UsuarioService {
 
   }
 
+  buscarPorId(id:string){
+    return this.angularFireDatabase.object('/usuarios/' + id)
+      .snapshotChanges()
+      .map(userSnapshot => {
+        // debugger;
+        let usuario:any;
+        usuario = userSnapshot.payload.val();
+        usuario.id = id;      
+        return usuario;
+        // console.log(usuario);
+    }); 
+  }
+
   salvar(uid: string, usuario: Usuario){
-    return this.angularFireDatabase.object('usuarios/'+uid).set(usuario);
+    return this.angularFireDatabase.object('usuarios/' + uid).set(usuario);
+  }
+
+  atualizar(usuario:any){
+    return new Promise((resolve, reject) => {
+      this.angularFireDatabase.object('usuarios/' + usuario.id)
+      .update(usuario)
+      .then(() => resolve)
+      .catch((e) => reject(e));
+    });
   }
 
   remover(){

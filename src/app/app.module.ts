@@ -28,6 +28,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { EventoService } from '../providers/evento-service/evento-service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
+import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { Base64 } from '@ionic-native/base64';
     ListEventosPage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
+     EditarUsuarioPage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],
@@ -53,6 +55,7 @@ import { Base64 } from '@ionic-native/base64';
     ListEventosPage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
+     EditarUsuarioPage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],

@@ -43,10 +43,11 @@ export class LoginPage {
 
     this.authService.logar(this.usuario).then((retorno)=> {
       if(retorno.emailVerified){
-        this.navCtrl.setRoot(ListEventosPage);
-      }
-      toast.setMessage('Seu E-mail ainda não foi verificado.');
-      toast.present();
+        this.navCtrl.setRoot(ListEventosPage, {id:retorno.uid});
+      } else {
+        toast.setMessage('Seu E-mail ainda não foi verificado.');        
+        toast.present();
+      }      
 
     }).catch((error: any) => {
 

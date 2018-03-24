@@ -1,4 +1,4 @@
-//import { UsuarioService } from './../../providers/usuario-service/usuario-service';
+import { UsuarioService } from './../../providers/usuario-service/usuario-service';
 import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
@@ -20,7 +20,7 @@ export class RegistroPage {
   usuario = {} as Usuario;
 
   constructor( private authService: AuthService,
-    //private usuarioService: UsuarioService,
+    private usuarioService: UsuarioService,
     private toastCtrl:ToastController, 
     public navCtrl: NavController, 
     public navParams: NavParams) {
@@ -38,10 +38,10 @@ export class RegistroPage {
               toast.setMessage('Um e-mail de confirmação foi enviado para conclusão do registro do usuário.');
               toast.present();
               this.navCtrl.pop();
+              this.usuarioService.salvar(retorno.uid, this.usuario);
             }).catch((error:any) => {
               console.error(error)
-            });
-            //this.usuarioService.salvar(retorno.uid, this.usuario);
+            });            
           }).catch((error: any) => {
             switch(error.code){
               case 'auth/email-already-in-use':
