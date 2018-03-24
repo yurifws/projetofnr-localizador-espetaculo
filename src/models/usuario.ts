@@ -1,12 +1,14 @@
 export class Usuario{
     email: string
     senha: string
-    permissao: boolean
+    nome: string
+    tipoUsuario: boolean
 
     constructor() {
         this.email = '';
         this.senha = '';
-        this.permissao = false;
+        this.nome = '';
+        this.tipoUsuario = false;
     }
 
     

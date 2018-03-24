@@ -9,13 +9,13 @@
     <ion-navbar color="primary">
       <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
-          <ion-title>Alterar Usuário</ion-title>
       </button>
-      <button right ion-button (click)="alterarUsuario()">
-          <ion-icon  name="checkmark"></ion-icon>
-      </button>
+
+    <ion-title>Alterar Usuário
+      <ion-icon float-end name="checkmark-circle" (click)="alterarUsuario()"></ion-icon>
+
+    </ion-title>
     </ion-navbar>
-  
   </ion-header>
   
   
@@ -36,8 +36,8 @@
       <ion-item>
         <ion-label>Tipo de Usuário</ion-label>
         <ion-select [(ngModel)]="usuario.tipoUsuario" interface="action-sheet">
-          <ion-option value="0">Comum</ion-option>
-          <ion-option value="1">Divulgador</ion-option>
+          <ion-option value=false>Comum</ion-option>
+          <ion-option value=true>Divulgador</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

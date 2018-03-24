@@ -35,12 +35,19 @@ export class RegistroPage {
 
           this.authService.criarConta(this.usuario).then((retorno: any) => {
             retorno.sendEmailVerification().then(()=> {
-              toast.setMessage('Um e-mail de confirmação foi enviado para conclusão do registro do usuário.');
-              toast.present();
-              this.navCtrl.pop();
-              this.usuarioService.salvar(retorno.uid, this.usuario);
+              let usuario = {} as Usuario;
+              usuario.email = this.usuario.email;
+              usuario.tipoUsuario = false;
+              this.usuarioService.salvar(retorno.uid, usuario).then(() =>{
+                toast.setMessage('Um e-mail de confirmação foi enviado para conclusão do registro do usuário.');
+                toast.present();
+                this.navCtrl.pop();
+
+              }).catch((error) => {
+                console.error(error);
+              });
             }).catch((error:any) => {
-              console.error(error)
+              console.error(error);
             });            
           }).catch((error: any) => {
             switch(error.code){

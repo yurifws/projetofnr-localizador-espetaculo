@@ -18,36 +18,42 @@ import { AngularFireAuth } from "angularfire2/auth";
 })
 export class EditarUsuarioPage {
 
-  usuario:any = {} as Usuario;
-
+  usuario = {} as Usuario;
+  uid: any;
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private usuarioService: UsuarioService,
     private angularFireAuth: AngularFireAuth,
     private toastCtrl: ToastController) {  
-      let id:any;
-      id = angularFireAuth.auth.currentUser.uid;
-      if (id) {
-          const subscribe = this.usuarioService.buscarPorId(id).subscribe((c: any) => {
+      this.uid = angularFireAuth.auth.currentUser.uid;
+      if (this.uid) {
+          const subscribe = this.usuarioService.buscarPorId(this.uid).subscribe((c: any) => {
             subscribe.unsubscribe();
             this.usuario = c;
-            // this.createForm();
           })
         }
   }
 
   alterarUsuario(){
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
-    this.usuarioService.atualizar(this.usuario)
+
+    let usuario = {} as Usuario;
+
+    usuario.email = this.usuario.email;
+    usuario.nome = this.usuario.nome;
+    usuario.tipoUsuario = this.usuario.tipoUsuario; 
+
+    this.usuarioService.atualizar(this.uid, usuario)
     .then(() => {
       toast.setMessage('Usuario salvo com sucesso.');
       toast.present();
     })
-    .catch((e) => {
-      toast.setMessage('Erro ao salvar o contato.');
+    .catch((error) => {
+      toast.setMessage('Erro ao salvar o usuario.');
       toast.present();
-      console.error(e);
+      console.error(error);
     })
     
   }
@@ -55,13 +61,5 @@ export class EditarUsuarioPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditarUsuarioPage');
   }
-
-  // createForm() {
-  //   this.form = this.formBuilder.group({
-  //     key: [this.usuario.key],
-  //     email: [this.usuario.email],
-  //     nome: [this.usuario.nome, Validators.required],
-  //   });
-  // }
 
 }
