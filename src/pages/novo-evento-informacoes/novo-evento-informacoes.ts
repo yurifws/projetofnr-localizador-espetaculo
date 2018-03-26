@@ -1,7 +1,8 @@
-import { InformacoesEvento } from './../../models/informacoesEvento';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { Evento } from '../../models/evento';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { EventoService } from '../../providers/evento-service/evento-service';
+import { ListEventosCriadosPage } from '../list-eventos-criados/list-eventos-criados';
+import * as firebase from 'firebase';
 
 /**
  * Generated class for the NovoEventoInformacoesPage page.
@@ -17,13 +18,27 @@ import { Evento } from '../../models/evento';
 })
 export class NovoEventoInformacoesPage {
 
-  evento = {} as Evento;
-  informacoesEvento = {} as InformacoesEvento;
+  evento: any;
+  tituloPagina: string;
+  filePhoto: File;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
-    public alertCtrl: AlertController) {
-    this.evento = this.navParams.get('evento');
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private eventoService: EventoService) {
+      
+    this.evento =  this.navParams.data.evento || {};
+    this.setarTituloPagina()
+      
+  }
+
+  setarTituloPagina(){
+    if (this.evento.key){
+      this.tituloPagina = 'Alterar informações do evento'
+    }else{
+      this.tituloPagina = 'Informações do evento'
+    }
   }
 
   ionViewDidLoad() {
@@ -33,34 +48,94 @@ export class NovoEventoInformacoesPage {
   openPage() {
     let alert = this.alertCtrl.create({ 
       title: 'Confirmação de informações do evento',
-      message: 'Confirma as informações: Nome do evento: '+ this.informacoesEvento.nome +
-      ', sinopse: '+this.informacoesEvento.sinopse+ ', classificação: '+this.informacoesEvento.classificacao+ 
-      ', data: '+ this.informacoesEvento.data+', duração: '+this.informacoesEvento.duracao,
+      message: 'Confirma as informações: Nome do evento: '+ this.evento.nome +
+      ', sinopse: '+this.evento.sinopse+ ', classificação: '+this.evento.classificacao+ 
+      ', data: '+ this.evento.data+', duração: '+this.evento.horaInicial + 'h até '+ this.evento.horaFinal +'h',
       buttons: [
         {
-          text: 'Cancela',
+          text: 'Cancelar',
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');
           }
         },
         {
-          text: 'Confirma',
+          text: 'Confirmar',
           handler: () => {
-            
-            this.evento.nome = this.informacoesEvento.nome;
-            this.evento.sinopse = this.informacoesEvento.sinopse;
-            this.evento.classificacao = this.informacoesEvento.classificacao;
-            this.evento.data = this.informacoesEvento.data;
-            this.evento.duracao = this.informacoesEvento.duracao;
+            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
 
-            this.navCtrl.push('NovoEventoImagemPage', 
-            {evento: this.evento});
+            if (this.filePhoto != null) {
+              this.confirmarEventoComFoto(toast);
+            }else{
+              this.confirmarEventoSemFoto(toast);
+            }
           }
         }
       ]
     });
     alert.present();
+  }
+
+  confirmarEventoComFoto(toast){
+
+      let uploadTask = this.eventoService.uploadESalvar(this.filePhoto);
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          var progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100; 
+          console.log(progress + '% finalizado.');
+        },
+        (error) => {
+          console.error(error);
+        },() => {
+
+          
+          this.evento.fullPath = this.eventoService.getBasePath() + this.evento.nome + this.filePhoto;
+          this.evento.url = uploadTask.snapshot.downloadURL;
+
+          if (this.evento.key){
+            this.eventoService.atualizar(this.evento).then(()=>{
+              toast.setMessage('Evento alterado com sucesso.');
+              this.navCtrl.setRoot(ListEventosCriadosPage);
+            }, (error) =>{
+              toast.setMessage('Erro ao alterar evento.');
+            });
+          }else{
+            this.eventoService.salvar(this.evento).then(()=>{
+              toast.setMessage('Evento cadastrado com sucesso.');
+              this.navCtrl.setRoot(ListEventosCriadosPage);
+            }, (error) =>{
+              toast.setMessage('Erro ao cadastrar evento.');
+            });
+          }
+          toast.present();
+        });
+
+    }
+
+  confirmarEventoSemFoto(toast){
+
+    this.evento.url = 'https://firebasestorage.googleapis.com/v0/b/projeto-localizador-espetaculo.appspot.com/o/semImage.png?alt=media&token=fe7847c9-c517-4f8d-aaf5-5296878cf9a2';
+    if (this.evento.key){
+      this.eventoService.atualizar(this.evento).then(()=>{
+        toast.setMessage('Evento alterado com sucesso.');
+
+        this.navCtrl.setRoot(ListEventosCriadosPage);
+      }, (error) =>{
+        toast.setMessage('Erro ao alterar evento.');
+      });
+    }else{
+      this.eventoService.salvar(this.evento).then(()=>{
+        toast.setMessage('Evento cadastrado com sucesso.');
+        this.navCtrl.setRoot(ListEventosCriadosPage);
+      }, (error) =>{
+        toast.setMessage('Erro ao cadastrar evento.');
+      });
+    }
+    toast.present();
+  }
+
+  onPhoto(event): void {  
+    this.filePhoto = event.target.files[0];
   }
 
 }

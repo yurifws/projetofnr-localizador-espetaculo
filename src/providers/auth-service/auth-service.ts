@@ -33,5 +33,9 @@ export class AuthService {
     return this.angularFireAuth.auth.sendPasswordResetEmail(email);
   }
 
+  retornarUidUsuarioLogado(){
+    return this.angularFireAuth.auth.currentUser.uid;
+  }
+
 
 }

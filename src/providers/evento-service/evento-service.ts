@@ -1,4 +1,3 @@
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Evento } from '../../models/evento';
@@ -15,22 +14,16 @@ import * as firebase from 'firebase';
 export class EventoService {
 
   private path = '/eventos/';
-  //private userUid: string;
   eventos: AngularFireList<Evento[]>;
+  storageRef:any;
+  basePath: string;
 
-  constructor(private angularFireDatabase: AngularFireDatabase, 
-    private firebaseApp: FirebaseApp) {
-
-    //var user = firebase.auth().currentUser;
-    //console.log('currentuser', user);
-    //if (user != null) {
-      //user.providerData.forEach( (profile) => {
-        //this.userUid = profile.uid;
-        //console.log('useruid', this.userUid);
-      //});
-     //}
+  constructor(public angularFireDatabase: AngularFireDatabase, 
+    public firebaseApp: FirebaseApp) {
 
     this.eventos = this.angularFireDatabase.list(this.path);
+    this.basePath = this.path + firebase.auth().currentUser.uid +'/';
+    this.storageRef = this.firebaseApp.storage().ref();
   }
 
   consultarTodos(){
@@ -44,61 +37,35 @@ export class EventoService {
   }
 
   consultar(key: string){
-    return this.angularFireDatabase.object(this.path+key )
+    return this.angularFireDatabase.object(this.path+key)
     .snapshotChanges()
     .map(c => { 
       return { key: c.key, ...c.payload.val()};
       })
   }
 
-  private salvar(evento){
-    return this.eventos.push(evento);
-
+  public salvar(evento){
+      return this.eventos.push(evento);
+  }
+  public atualizar(evento){
+      return  this.eventos.update(evento.key, evento);
   }
 
-  alterar(evento, key: string){
-    return this.eventos.update(key, evento);
+  uploadESalvar(filePhoto: File){
+    return firebase.storage().ref().child(this.basePath).put(filePhoto);
   }
-
-  uploadESalvar(evento, fileToUpload: string){
-    let storageRef = this.firebaseApp.storage().ref();
-    let basePath = this.path + firebase.auth().currentUser.uid;
-    console.log('evento', evento);
-    evento.fullPath = basePath
-    console.log('evento.fullPath', evento.fullPath);
-    let uploadTask = storageRef.child(basePath).putString(fileToUpload, 'base64');
-    console.log('antes de uploadTask');
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-    (snapshot) => {
-      var progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100; 
-      console.log(progress + '% finalizado.');
-    },
-    (error) => {
-      console.error(error);
-    },
-    () => {
-      evento.url = uploadTask.snapshot.downloadURL;
-      this.salvar(evento);
-    });
-
-  }
-
-  uploadEAlterar(evento, key: string){
-
-  }
-
 
   remover(evento){
-    return this.eventos.remove(evento.key)
-    .then( () => {
-      this.removerArquivo(evento.fullPath);
-    });
+    return this.eventos.remove(evento.key);
   }
 
   private removerArquivo(fullPath: string){
-    let storageRef = this.firebaseApp.storage().ref();
-    storageRef.child(fullPath).delete();
+    this.storageRef.child(fullPath).delete();
 
+  }
+
+  getBasePath(){
+    return this.basePath;
   }
 
 }
