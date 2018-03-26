@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { LoginPage } from '../pages/login/login';
+// import { LoginPage } from '../pages/login/login';
 import { ListEventosPage } from '../pages/list-eventos/list-eventos';
 import { ListEventosCriadosPage } from '../pages/list-eventos-criados/list-eventos-criados';
 
@@ -29,15 +29,17 @@ import { EventoService } from '../providers/evento-service/evento-service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
+import { HomePage } from '../pages/home/home';
 
 @NgModule({
   declarations: [
     MyApp,
-    LoginPage,
+    // LoginPage,
     ListEventosPage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
+     HomePage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],
@@ -51,11 +53,12 @@ import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LoginPage,
+    // LoginPage,
     ListEventosPage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
+     HomePage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],

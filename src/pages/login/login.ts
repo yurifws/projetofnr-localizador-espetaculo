@@ -72,9 +72,9 @@ export class LoginPage {
     });
   }
 
-  registrar(){
-    this.navCtrl.push('RegistroPage');
-  }
+  // registrar(){
+  //   this.navCtrl.push('RegistroPage');
+  // }
 
   resetarSenha(){
     this.navCtrl.push('SenhaResetPage');
