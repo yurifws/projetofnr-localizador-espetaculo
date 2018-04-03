@@ -67,7 +67,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     if(page.component == HomePage){
-      this.authService.deslogar().catch((error: any) => {
+      this.authService.signOut().catch((error: any) => {
         console.error(error)
       });
     }else{

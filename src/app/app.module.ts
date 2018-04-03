@@ -22,7 +22,8 @@ import { NovoEventoMapaPage } from '../pages/novo-evento-mapa/novo-evento-mapa';
 // import { NovoEventoImagemPage } from './../pages/novo-evento-imagem/novo-evento-imagem';
 // import { NovoEventoInformacoesPage } from './../pages/novo-evento-informacoes/novo-evento-informacoes';
 
-
+import { GooglePlus } from '@ionic-native/google-plus'
+import { Facebook } from '@ionic-native/facebook'
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { EventoService } from '../providers/evento-service/evento-service';
@@ -39,7 +40,6 @@ import { HomePage } from '../pages/home/home';
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
-     HomePage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],
@@ -58,7 +58,6 @@ import { HomePage } from '../pages/home/home';
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
-     HomePage,
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],
@@ -72,7 +71,9 @@ import { HomePage } from '../pages/home/home';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     UsuarioService,
-    EventoService
+    EventoService,
+    GooglePlus,
+    Facebook,
   ]
 })
 export class AppModule {}

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AuthService } from '../../providers/auth-service/auth-service';
+import { ListEventosPage } from '../list-eventos/list-eventos';
 
 /**
  * Generated class for the HomePage page.
@@ -15,7 +17,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private authService: AuthService,
+              public toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -28,6 +33,30 @@ export class HomePage {
 
   toSignUpPage(){
     this.navCtrl.push('RegistroPage');
+  }
+
+  signInWithGoogle(){
+    let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
+    this.authService.signInWithGoogle()
+      .then(() => {
+        this.navCtrl.setRoot(ListEventosPage);
+      })
+      .catch((e) => {
+        console.log(e)
+        toast.setMessage('Erro durante o login.').present();
+      });
+  }
+
+  signInWithFacebook(){
+    let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
+    this.authService.signInWithFacebook()
+      .then(() => {
+        this.navCtrl.setRoot(ListEventosPage);
+      })
+      .catch((e) => {
+        console.log(e)
+        toast.setMessage('Erro durante o login.').present();
+      });
   }
 
 }

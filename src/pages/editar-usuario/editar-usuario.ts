@@ -11,7 +11,7 @@ import { AngularFireAuth } from "angularfire2/auth";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-editar-usuario',
   templateUrl: 'editar-usuario.html',
