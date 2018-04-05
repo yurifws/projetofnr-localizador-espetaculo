@@ -95,9 +95,10 @@
     <plugin name="com.synconset.imagepicker" spec="^2.1.10">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
     </plugin>
-    <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="181251312504843" />
-        <variable name="APP_NAME" value="Localizador de Espetaculos" />
+        <variable name="APP_NAME" value="MyApp" />
     </plugin>
+    <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-googleplus" spec="^5.2.3" />
 </widget>

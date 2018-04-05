@@ -32,6 +32,12 @@ export class UsuarioService {
       }) 
   }
 
+  buscarPorEmail(email: string){
+    return this.angularFireDatabase.list(this.path, ref => {
+      return email ? ref.equalTo(email) : ref;
+    }).snapshotChanges();
+  }
+
   salvar(uid: string, usuario: Usuario){
     return this.angularFireDatabase.object(this.path + uid).set(usuario);
   }

@@ -40,6 +40,7 @@ import { HomePage } from '../pages/home/home';
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
+     HomePage
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],
@@ -58,6 +59,7 @@ import { HomePage } from '../pages/home/home';
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
+     HomePage
     // NovoEventoInformacoesPage,
     // NovoEventoImagemPage
   ],

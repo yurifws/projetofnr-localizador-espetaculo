@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { UsuarioService } from '../usuario-service/usuario-service';
 
 /*
   Generated class for the AuthService provider.
@@ -14,9 +15,10 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 export class AuthService {
 
   constructor(private angularFireAuth: AngularFireAuth,
-              private googlePlus: GooglePlus,
-              private facebook: Facebook) {
-    this.angularFireAuth.auth.languageCode ='pt-br';
+    private googlePlus: GooglePlus,
+    private facebook: Facebook,
+    private usuarioService: UsuarioService) {
+    this.angularFireAuth.auth.languageCode = 'pt-br';
   }
 
   criarConta(usuario: Usuario) {
@@ -28,11 +30,12 @@ export class AuthService {
 
   }
 
-  signOut(){
+  signOut() {
+    debugger;
     let authProviders = this.angularFireAuth.auth.currentUser.providerData;
-    if(authProviders.length){
+    if (authProviders.length) {
       authProviders.forEach(provider => {
-        if(provider.providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID)
+        if (provider.providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID)
           return this.googlePlus.disconnect()
             .then(() => {
               return this.deslogarFirebase();
@@ -46,7 +49,7 @@ export class AuthService {
     }
     return this.deslogarFirebase();
   }
-  
+
   deslogarFirebase() {
     console.log('deslogar');
     return this.angularFireAuth.auth.signOut();
@@ -56,27 +59,42 @@ export class AuthService {
     return this.angularFireAuth.auth.sendPasswordResetEmail(email);
   }
 
-  signInWithGoogle(){
+  signInWithGoogle() {
     return this.googlePlus.login({
       'webClientId': '536922654223-qt4lq7e508th74m4o72t3aqj06hl5hb7.apps.googleusercontent.com',
       'offline': true
     }).then(res => {
       this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then((user: firebase.User) => {
-          return user.updateProfile({ displayName: res.displayName, photoURL: res.imageUrl});
+          debugger;
+          return user.updateProfile({ displayName: res.displayName, photoURL: res.imageUrl });
         });
+    }).catch((e) => {
+      console.log(e);
     });
   }
 
-  signInWithFacebook(){
+  signInWithFacebook() {
     return this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
+        debugger;
+        this.facebook.api("/me?fields=email,name,picture", ["public_profile"])
+          .then(response => {
+            debugger;
+            let listaUsuario = this.usuarioService.buscarPorEmail(response.email);
+            let usuario: any;
+            usuario.nome = response.name;
+            usuario.email = response.email;
+            usuario.tipoUsuario = false;
+            usuario.photoURL = response.picture;
+          });
+        console.log(res);
         return this.angularFireAuth.auth
-                                   .signInWithCredential(firebase.auth.FacebookAuthProvider
-                                                                 .credential(res.authResponse.accessToken));
+          .signInWithCredential(firebase.auth.FacebookAuthProvider
+            .credential(res.authResponse.accessToken));
       })
       .catch((e) => {
-
+        console.log(e);
       });
   }
 

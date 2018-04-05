@@ -40,7 +40,7 @@
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-googlemaps": "^2.2.9",
-    "cordova-plugin-googleplus": "^5.2.2",
+    "cordova-plugin-googleplus": "^5.2.3",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
     "cordova-plugin-nativegeocoder": "^3.1.1",
@@ -82,8 +82,9 @@
       "com-badrit-base64": {},
       "cordova-plugin-facebook4": {
         "APP_ID": "181251312504843",
-        "APP_NAME": "Localizador de Espetaculos"
-      }
+        "APP_NAME": "MyApp"
+      },
+      "cordova-plugin-googleplus": {}
     },
     "platforms": [
       "android"
