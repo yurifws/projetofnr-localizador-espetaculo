@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { ListEventosPage } from '../list-eventos/list-eventos';
+import { Facebook } from '@ionic-native/facebook';
+import { UsuarioService } from '../../providers/usuario-service/usuario-service';
+import { Usuario } from '../../models/usuario';
 
 /**
  * Generated class for the HomePage page.
@@ -20,6 +23,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private authService: AuthService,
+              private facebook: Facebook,
+              private usuarioService: UsuarioService,
               public toastCtrl: ToastController) {
   }
 
@@ -50,7 +55,7 @@ export class HomePage {
   signInWithFacebook(){
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
     this.authService.signInWithFacebook()
-      .then(() => {
+      .then(() => {       
         this.navCtrl.setRoot(ListEventosPage);
       })
       .catch((e) => {

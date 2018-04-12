@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import firebase from 'firebase';
 
 import { FIREBASE_CONFIG } from './firebase.credentials';
 
@@ -31,6 +32,8 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
+
+//firebase.initializeApp({FIREBASE_CONFIG});
 
 @NgModule({
   declarations: [

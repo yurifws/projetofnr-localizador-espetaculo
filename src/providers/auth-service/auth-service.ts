@@ -4,6 +4,7 @@ import { Usuario } from '../../models/usuario';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { UsuarioService } from '../usuario-service/usuario-service';
+import firebase from 'firebase';
 
 /*
   Generated class for the AuthService provider.
@@ -19,6 +20,10 @@ export class AuthService {
     private facebook: Facebook,
     private usuarioService: UsuarioService) {
     this.angularFireAuth.auth.languageCode = 'pt-br';
+  }
+
+  fbAuth(){
+    return this.angularFireAuth.auth;
   }
 
   criarConta(usuario: Usuario) {
@@ -67,7 +72,11 @@ export class AuthService {
       this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then((user: firebase.User) => {
           debugger;
-          return user.updateProfile({ displayName: res.displayName, photoURL: res.imageUrl });
+          let usuario:any = {} as Usuario;
+          usuario.nome = user.displayName;
+          usuario.email = user.email;
+          usuario.photoURL = user.photoURL;
+          return this.usuarioService.salvar(user.uid, usuario);
         });
     }).catch((e) => {
       console.log(e);
@@ -77,21 +86,25 @@ export class AuthService {
   signInWithFacebook() {
     return this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
-        debugger;
-        this.facebook.api("/me?fields=email,name,picture", ["public_profile"])
-          .then(response => {
-            debugger;
-            let listaUsuario = this.usuarioService.buscarPorEmail(response.email);
-            let usuario: any;
-            usuario.nome = response.name;
-            usuario.email = response.email;
-            usuario.tipoUsuario = false;
-            usuario.photoURL = response.picture;
-          });
         console.log(res);
         return this.angularFireAuth.auth
-          .signInWithCredential(firebase.auth.FacebookAuthProvider
-            .credential(res.authResponse.accessToken));
+          .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken))
+          .then((user: firebase.User) => {
+            debugger;
+            console.log(user);
+            let usuario:any = {} as Usuario;  
+              this.facebook.api("/me?fields=id,email,name,picture", ["public_profile"])
+                .then(response => {
+                  debugger;
+                  usuario.nome = response.name;
+                  usuario.email = response.email;
+                  usuario.tipoUsuario = false;
+                  usuario.photoURL = response.picture.data.url;            
+                  // console.log(response);
+                  // console.log(usuario);
+                  this.usuarioService.salvar(user.uid, usuario);
+                });
+          });
       })
       .catch((e) => {
         console.log(e);

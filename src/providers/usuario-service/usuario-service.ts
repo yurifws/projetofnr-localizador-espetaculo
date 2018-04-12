@@ -38,11 +38,15 @@ export class UsuarioService {
     }).snapshotChanges();
   }
 
-  salvar(uid: string, usuario: Usuario){
-    return this.angularFireDatabase.object(this.path + uid).set(usuario);
+  salvarSemId(usuario:any){
+    return this.angularFireDatabase.list(this.path).push(usuario);
   }
 
-  atualizar(uid: string, usuario: Usuario){
+  salvar(uid: string, usuario:Usuario){
+    return this.angularFireDatabase.database.ref(this.path + uid).set(usuario);
+  }
+
+  atualizar(uid: string, usuario: any){
     return this.angularFireDatabase.object(this.path + uid).update(usuario);
 
   }
