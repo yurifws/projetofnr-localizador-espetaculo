@@ -1,9 +1,8 @@
 import { NativeGeocoderResultModel } from './../../models/nativeGeocoderResult';
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController } from 'ionic-angular';
+import { NavController, Platform, AlertController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
-import { Evento } from '../../models/evento';
 
 
 declare var google: any;
@@ -15,21 +14,39 @@ declare var google: any;
 })
 export class NovoEventoMapaPage {
 
+tituloPagina: string;
   map: any;
-  markerMinhaLocalizacao: any;
-  markerLocalizacaoDoEvento: any;
+
   infowindowMinhaLocalizacao: any;
+  markerMinhaLocalizacao: any;
+  
   infowindowLocalizacaoDoEvento: any;
+  markerLocalizacaoDoEvento: any;
+
   resultadoEndereco: NativeGeocoderResultModel;
-  evento = {} as Evento;
-  latLngEvento: any;
+  evento:any;
 
   constructor(public navCtrl: NavController,
+    public navParams: NavParams,
     private geolocation: Geolocation,
     private plataform: Platform,
     public nativeGeocoder: NativeGeocoder,
     public alertCtrl:AlertController) {
+
+      this.evento = this.navParams.data.evento || {} ;
+      this.setarTituloPagina();
   }
+
+  setarTituloPagina(){
+    if (this.evento.key){
+      this.tituloPagina = 'Alterar local do evento'
+    }else{
+      this.tituloPagina = 'Local do evento'
+    }
+  }
+
+
+
 
   ngAfterViewInit() {
     this.plataform.ready().then(() => {
@@ -41,7 +58,7 @@ export class NovoEventoMapaPage {
   }
   initPage() {
     this.geolocation.getCurrentPosition().then((retorno: any) => {
-      this.loadMap(retorno.coords.latitude, retorno.coords.longitude)
+      this.loadMap(retorno.coords.latitude, retorno.coords.longitude);
     }).catch((error: any) => {
       console.log(error);
     });
@@ -64,7 +81,14 @@ export class NovoEventoMapaPage {
       });
     }
 
-    const latLng = new google.maps.LatLng(lat, lng);
+    let latLng: any;
+    let latLngMinhaLocalizacao = new google.maps.LatLng(lat, lng) 
+
+    if(this.evento.key){
+       latLng = new google.maps.LatLng(this.evento.latitude, this.evento.longitude);
+    }else{
+       latLng = new google.maps.LatLng(lat, lng);
+    }
 
     const mapOptions = {
       center: latLng,
@@ -78,14 +102,14 @@ export class NovoEventoMapaPage {
    this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 
-   this.markerMinhaLocalizacao = addMarker(latLng, this.map);
-   this.infowindowMinhaLocalizacao = addInfoWindow('Minha localização')
+   this.markerMinhaLocalizacao = addMarker(latLngMinhaLocalizacao, this.map);
+   this.infowindowMinhaLocalizacao = addInfoWindow('<p>Minha localização</p>')
   
    this.map.addListener('idle',  () => {
 
        if (this.markerLocalizacaoDoEvento == null){
         this.markerLocalizacaoDoEvento = addMarker(this.map.getCenter(), this.map);
-        this.infowindowLocalizacaoDoEvento = addInfoWindow('<p>Minha localização<p>');
+        this.infowindowLocalizacaoDoEvento = addInfoWindow('<p>Minha localização</p>');
        }else{
 
         this.markerLocalizacaoDoEvento.setMap(null);
@@ -135,35 +159,36 @@ export class NovoEventoMapaPage {
         ', ' + this.resultadoEndereco.countryName +'(' + this.resultadoEndereco.countryCode+')',
         buttons: [
           {
-            text: 'Cancela',
+            text: 'Cancelar',
             role: 'cancel',
             handler: () => {
               console.log('Cancel clicked');
             }
           },
           {
-            text: 'Confirma',
+            text: 'Confirmar',
             handler: () => {
-              
-              this.evento.subEstado = this.resultadoEndereco.subAdministrativeArea;
-              this.evento.cep = this.resultadoEndereco.postalCode;
-              this.evento.cidade = this.resultadoEndereco.locality;
-              this.evento.bairro = this.resultadoEndereco.subLocality;
-              this.evento.subLogradouro = this.resultadoEndereco.subThoroughfare;
-              this.evento.codigoPais = this.resultadoEndereco.countryCode;
-              this.evento.nomePais = this.resultadoEndereco.countryName;
-              this.evento.estado =  this.resultadoEndereco.administrativeArea;
-              this.evento.logradouro = this.resultadoEndereco.thoroughfare;
-              this.evento.latitude = this.map.getCenter().lat();
-              this.evento.longitude = this.map.getCenter().lng();
-
-              this.navCtrl.push('NovoEventoInformacoesPage', 
-              {evento: this.evento});
+              this.preecherLocalEvento();
+              this.navCtrl.push('NovoEventoInformacoesPage', {evento: this.evento});
             }
           }
         ]
       });
       alert.present();
     }
+
+    preecherLocalEvento(){
+      this.evento.subEstado = this.resultadoEndereco.subAdministrativeArea;
+      this.evento.cep = this.resultadoEndereco.postalCode;
+      this.evento.cidade = this.resultadoEndereco.locality;
+      this.evento.bairro = this.resultadoEndereco.subLocality;
+      this.evento.subLogradouro = this.resultadoEndereco.subThoroughfare;
+      this.evento.codigoPais = this.resultadoEndereco.countryCode;
+      this.evento.nomePais = this.resultadoEndereco.countryName;
+      this.evento.estado =  this.resultadoEndereco.administrativeArea;
+      this.evento.logradouro = this.resultadoEndereco.thoroughfare;
+      this.evento.latitude = this.map.getCenter().lat();
+      this.evento.longitude = this.map.getCenter().lng();
+}
 
 }

@@ -2,11 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import { MyApp } from './app.component';
-// import { LoginPage } from '../pages/login/login';
-import { ListEventosPage } from '../pages/list-eventos/list-eventos';
-import { ListEventosCriadosPage } from '../pages/list-eventos-criados/list-eventos-criados';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -19,17 +14,21 @@ import { FIREBASE_CONFIG } from './firebase.credentials';
 
 import { AuthService } from '../providers/auth-service/auth-service';
 import { UsuarioService } from '../providers/usuario-service/usuario-service';
-import { NovoEventoMapaPage } from '../pages/novo-evento-mapa/novo-evento-mapa';
 // import { NovoEventoImagemPage } from './../pages/novo-evento-imagem/novo-evento-imagem';
 // import { NovoEventoInformacoesPage } from './../pages/novo-evento-informacoes/novo-evento-informacoes';
 
 import { GooglePlus } from '@ionic-native/google-plus'
 import { Facebook } from '@ionic-native/facebook'
+import { EventoService } from '../providers/evento-service/evento-service';
+
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
-import { EventoService } from '../providers/evento-service/evento-service';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { Base64 } from '@ionic-native/base64';
+
+import { MyApp } from './app.component';
+import { LoginPage } from '../pages/login/login';
+import { ListEventosPage } from '../pages/list-eventos/list-eventos';
+import { ListEventosCriadosPage } from '../pages/list-eventos-criados/list-eventos-criados';
+import { NovoEventoMapaPage } from '../pages/novo-evento-mapa/novo-evento-mapa';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
 
@@ -40,19 +39,17 @@ import { HomePage } from '../pages/home/home';
     MyApp,
     // LoginPage,
     ListEventosPage,
+    HomePage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
-     EditarUsuarioPage,
-     HomePage
-    // NovoEventoInformacoesPage,
-    // NovoEventoImagemPage
+     EditarUsuarioPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -61,18 +58,14 @@ import { HomePage } from '../pages/home/home';
     ListEventosPage,
     ListEventosCriadosPage,
      NovoEventoMapaPage,
-     EditarUsuarioPage,
-     HomePage
-    // NovoEventoInformacoesPage,
-    // NovoEventoImagemPage
+     HomePage,
+     EditarUsuarioPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     NativeGeocoder,
     Geolocation,
-    ImagePicker,
-    Base64,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     UsuarioService,

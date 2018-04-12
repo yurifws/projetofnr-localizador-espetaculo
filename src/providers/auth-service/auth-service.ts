@@ -64,6 +64,7 @@ export class AuthService {
     return this.angularFireAuth.auth.sendPasswordResetEmail(email);
   }
 
+<<<<<<< HEAD
   signInWithGoogle() {
     return this.googlePlus.login({
       'webClientId': '536922654223-qt4lq7e508th74m4o72t3aqj06hl5hb7.apps.googleusercontent.com',
@@ -110,5 +111,11 @@ export class AuthService {
         console.log(e);
       });
   }
+=======
+  retornarUidUsuarioLogado(){
+    return this.angularFireAuth.auth.currentUser.uid;
+  }
+
+>>>>>>> f5430540b766d6bb32e301ca016972870783cb36
 
 }

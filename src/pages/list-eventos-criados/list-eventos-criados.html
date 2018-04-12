@@ -7,18 +7,15 @@
 <ion-header>
 
   <ion-navbar color="primary">
-
       <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title>Eventos Criados</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
     <ion-fab top right edge>
         <button ion-fab  color="light" (click)="criaEvento()"> 
           <ion-icon name="add"></ion-icon>
@@ -28,23 +25,24 @@
     <ion-list>
             <ion-item-sliding *ngFor="let evento of eventos | async">
               <ion-item>
-                <ion-avatar item-start>
-                        <img src="{{ evento.url }}" alt=""/>
-                </ion-avatar>  
-                <h1>{{evento.nome}}</h1>
-              </ion-item>
-              <!--<ion-item-options side="left">
-                <button ion-button color="secondary" (click)="editarContato(contato)">
-                  <ion-icon name="create"></ion-icon>  
+                  <ion-thumbnail item-start>
+                      <img src="{{ evento.url }}" alt="">
+                  </ion-thumbnail>
+                  <h2>{{evento.nome}}</h2>
+                  <p>{{evento.logradouro}} ...</p>
+            </ion-item>
+
+             <ion-item-options side="left">
+                <button ion-button color="secondary" (click)="editarEvento(evento)">
+                  <ion-icon name="create"></ion-icon> 
+                  Alterar 
                 </button>
-                <button ion-button color="danger" (click)="removerContato(contato.key)">
+                <button ion-button color="danger" (click)="removerEvento(evento)">
                   <ion-icon name="trash"></ion-icon>  
+                  Remover
                 </button>
               </ion-item-options>
-            -->
-        
             </ion-item-sliding>
-        
           </ion-list>
 
 </ion-content>
