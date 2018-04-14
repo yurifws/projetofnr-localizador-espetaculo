@@ -111,4 +111,10 @@ export class AuthService {
       });
   }
 
+  retornarUidUsuarioLogado(){
+    return this.angularFireAuth.auth.currentUser.uid;
+  }
+  
+
+
 }

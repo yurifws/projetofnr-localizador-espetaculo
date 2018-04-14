@@ -45,6 +45,7 @@ export class EventoService {
   }
 
   public salvar(evento){
+      evento.usuarioCriador =  firebase.auth().currentUser.uid;
       return this.eventos.push(evento);
   }
   public atualizar(evento){
@@ -61,7 +62,6 @@ export class EventoService {
 
   private removerArquivo(fullPath: string){
     this.storageRef.child(fullPath).delete();
-
   }
 
   getBasePath(){

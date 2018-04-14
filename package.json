@@ -36,9 +36,12 @@
     "com.synconset.imagepicker": "^2.1.10",
 <<<<<<< HEAD
     "cordova": "^8.0.0",
+<<<<<<< HEAD
     "cordova-android": "7.0.0",
 =======
 >>>>>>> f5430540b766d6bb32e301ca016972870783cb36
+=======
+>>>>>>> rodrigo.alves
     "cordova-plugin-device": "^2.0.1",
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-geolocation": "^4.0.1",
