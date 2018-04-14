@@ -61,7 +61,6 @@ export class EventoService {
 
   private removerArquivo(fullPath: string){
     this.storageRef.child(fullPath).delete();
-
   }
 
   getBasePath(){
