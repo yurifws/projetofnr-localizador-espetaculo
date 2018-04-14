@@ -56,6 +56,7 @@ tituloPagina: string;
       console.log(error)
     });
   }
+
   initPage() {
     this.geolocation.getCurrentPosition().then((retorno: any) => {
       this.loadMap(retorno.coords.latitude, retorno.coords.longitude);
@@ -64,10 +65,7 @@ tituloPagina: string;
     });
   }
 
-  loadMap(lat, lng) {
-
-    
-
+  loadMap(lat, lng) { 
     function addInfoWindow(descricao: string){
       return new google.maps.InfoWindow({
         content: '<div>'+descricao+'</div>'
