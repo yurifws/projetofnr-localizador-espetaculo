@@ -7,9 +7,8 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Informações do evento
+    <ion-title>{{ tituloPagina }}
       <ion-icon float-end name="checkmark-circle" (click)="openPage()"></ion-icon>
-    
     </ion-title>
   </ion-navbar>
 
@@ -18,33 +17,39 @@
 
 <ion-content padding>
 
-    <ion-item>
-        <ion-label flooting>Nome do evento:</ion-label>
-        <ion-input type="text" [(ngModel)]="informacoesEvento.nome"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label flooting>Nome:</ion-label>
+    <ion-input type="text" [(ngModel)]="evento.nome"></ion-input>
+  </ion-item>
     
-      <ion-item>
-          <ion-label flooting>Sinopse:</ion-label>
-          <ion-input type="text" [(ngModel)]="informacoesEvento.sinopse"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label flooting>Sinopse:</ion-label>
+    <ion-input type="text" [(ngModel)]="evento.sinopse"></ion-input>
+  </ion-item>
 
-      <ion-item>
-          <ion-label flooting>Classificação:</ion-label>
-          <ion-input type="text" [(ngModel)]="informacoesEvento.classificacao"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label flooting>Classificação:</ion-label>
+    <ion-input type="text" [(ngModel)]="evento.classificacao"></ion-input>
+  </ion-item>
     
-      <ion-item>
-          <ion-label>Data</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="informacoesEvento.data"></ion-datetime>
-        </ion-item>
+  <ion-item>
+    <ion-label>Data</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="evento.data"></ion-datetime>
+  </ion-item>
 
-        <ion-item>
-            <ion-label>Duração</ion-label>
-            <ion-datetime displayFormat="HH:mm" [(ngModel)]="informacoesEvento.duracao"></ion-datetime>
-          </ion-item>
-    <!--<p>{{endereco.thoroughfare}} <br/> 
-      Bairro: {{endereco.subLocality}}, CEP:   {{endereco.postalCode}} <br/>
-      {{endereco.locality}} / {{endereco.administrativeArea}} <br/>
-      {{endereco.countryName}} ( {{endereco.countryCode}} )</p>
-    -->
+  <ion-item>
+    <ion-label>Hora inicial</ion-label>
+    <ion-datetime displayFormat="HH:mm" [(ngModel)]="evento.horaInicial"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Hora final</ion-label>
+    <ion-datetime displayFormat="HH:mm" [(ngModel)]="evento.horaFinal"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="image" item-start></ion-icon>
+    <input type="file" accept="image/*" (change)="onPhoto($event)"/>
+  </ion-item>
+            
 </ion-content>

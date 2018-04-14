@@ -1,8 +1,8 @@
+import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Usuario } from "../../models/usuario";
 import { UsuarioService } from "../../providers/usuario-service/usuario-service";
-import { AngularFireAuth } from "angularfire2/auth";
 
 /**
  * Generated class for the EditarUsuarioPage page.
@@ -25,9 +25,11 @@ export class EditarUsuarioPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private usuarioService: UsuarioService,
-    private angularFireAuth: AngularFireAuth,
+    private authService: AuthService,
     private toastCtrl: ToastController) {  
-      this.uid = angularFireAuth.auth.currentUser.uid;
+
+      this.uid = this.authService.retornarUidUsuarioLogado();
+
       if (this.uid) {
           const subscribe = this.usuarioService.buscarPorId(this.uid).subscribe((c: any) => {
             subscribe.unsubscribe();
@@ -35,6 +37,11 @@ export class EditarUsuarioPage {
           })
         }
   }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad EditarUsuarioPage');
+  }
+
 
   alterarUsuario(){
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
@@ -47,19 +54,15 @@ export class EditarUsuarioPage {
 
     this.usuarioService.atualizar(this.uid, usuario)
     .then(() => {
-      toast.setMessage('Usuario salvo com sucesso.');
-      toast.present();
+      toast.setMessage('Usuário alterado com sucesso.');
     })
     .catch((error) => {
-      toast.setMessage('Erro ao salvar o usuario.');
-      toast.present();
+      toast.setMessage('Erro ao alterar o usuario.');
       console.error(error);
-    })
+    });
+    toast.present();
     
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditarUsuarioPage');
-  }
 
 }

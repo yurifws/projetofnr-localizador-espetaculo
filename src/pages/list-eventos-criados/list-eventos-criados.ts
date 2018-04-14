@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { /*IonicPage,*/ NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { NovoEventoMapaPage } from '../novo-evento-mapa/novo-evento-mapa';
 import { Observable } from 'rxjs/observable';
 import { EventoService } from '../../providers/evento-service/evento-service';
@@ -11,7 +11,6 @@ import { EventoService } from '../../providers/evento-service/evento-service';
  * Ionic pages and navigation.
  */
 
-//@IonicPage()
 @Component({
   selector: 'page-list-eventos-criados',
   templateUrl: 'list-eventos-criados.html',
@@ -31,11 +30,21 @@ export class ListEventosCriadosPage {
     console.log('ionViewDidLoad ListEventosCriadosPage');
   }
 
+
+
   criaEvento() {
+    console.log('criaEvento()')
     this.navCtrl.push(NovoEventoMapaPage);
   }
 
-  removerContato(evento){
+  removerEvento(evento: any){
+    console.log('removerEvento()',evento)
     this.eventoService.remover(evento);
   }
+
+  editarEvento(evento: any){
+    console.log('editarEvento()',evento)
+    this.navCtrl.push(NovoEventoMapaPage, {evento: evento});
+  }
+  
 }
