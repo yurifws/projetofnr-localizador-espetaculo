@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule, Keyboard } from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -31,6 +31,7 @@ import { ListEventosCriadosPage } from '../pages/list-eventos-criados/list-event
 import { NovoEventoMapaPage } from '../pages/novo-evento-mapa/novo-evento-mapa';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
+import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
 
 //firebase.initializeApp({FIREBASE_CONFIG});
 
@@ -72,6 +73,8 @@ import { HomePage } from '../pages/home/home';
     EventoService,
     GooglePlus,
     Facebook,
+    GoogleMapsServiceProvider,
+    Keyboard,
   ]
 })
 export class AppModule {}
