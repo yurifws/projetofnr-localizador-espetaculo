@@ -22,7 +22,7 @@ export class ListEventosCriadosPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private eventoService: EventoService ) {
-      this.eventos = this.eventoService.consultarTodos();
+      this.eventos = this.eventoService.consultarPorUsuario();
 
   }
 

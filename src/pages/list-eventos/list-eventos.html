@@ -17,5 +17,33 @@
 
 
 <ion-content padding>
+  <ion-fab top right edge>
+      <button ion-fab  color="light" (click)="criaEvento()"> 
+        <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab>
+
+  <ion-list>
+          <ion-item-sliding *ngFor="let evento of eventos | async">
+            <ion-item>
+                <ion-thumbnail item-start>
+                    <img src="{{ evento.url }}" alt="">
+                </ion-thumbnail>
+                <h2>{{evento.nome}}</h2>
+                <p>{{evento.logradouro}} ...</p>
+          </ion-item>
+
+           <ion-item-options side="left">
+              <button ion-button color="secondary" (click)="editarEvento(evento)">
+                <ion-icon name="create"></ion-icon> 
+                Alterar 
+              </button>
+              <button ion-button color="danger" (click)="removerEvento(evento)">
+                <ion-icon name="trash"></ion-icon>  
+                Remover
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
 
 </ion-content>
