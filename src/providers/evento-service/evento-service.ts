@@ -36,7 +36,20 @@ export class EventoService {
 
   }
 
+  consultarPorUsuario(){
+    return this.angularFireDatabase.list(this.path, 
+                                         ref => ref.orderByChild('usuarioCriador')
+                                                   .equalTo(firebase.auth().currentUser.uid))
+                                    .snapshotChanges()
+                                    .map( changes => { 
+                                      return changes.map(c => ({ key: c.payload.key, ...c.payload.val()
+                                      }))
+                                    });
+
+  }
+
   consultar(key: string){
+    debugger;
     return this.angularFireDatabase.object(this.path+key)
     .snapshotChanges()
     .map(c => { 
