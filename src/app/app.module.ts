@@ -32,6 +32,8 @@ import { NovoEventoMapaPage } from '../pages/novo-evento-mapa/novo-evento-mapa';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
 import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
+import { UtilsProvider } from '../providers/utils/utils';
+import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-service/usuario-evento-service';
 
 //firebase.initializeApp({FIREBASE_CONFIG});
 
@@ -50,7 +52,7 @@ import { GoogleMapsServiceProvider } from '../providers/google-maps-service/goog
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -75,6 +77,8 @@ import { GoogleMapsServiceProvider } from '../providers/google-maps-service/goog
     Facebook,
     GoogleMapsServiceProvider,
     Keyboard,
+    UtilsProvider,
+    UsuarioEventoServiceProvider,
   ]
 })
 export class AppModule {}

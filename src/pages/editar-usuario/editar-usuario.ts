@@ -20,22 +20,22 @@ export class EditarUsuarioPage {
 
   usuario = {} as Usuario;
   uid: any;
-  
+
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private usuarioService: UsuarioService,
     private authService: AuthService,
-    private toastCtrl: ToastController) {  
+    private toastCtrl: ToastController) {
 
-      this.uid = this.authService.retornarUidUsuarioLogado();
+    this.uid = this.authService.retornarUidUsuarioLogado();
 
-      if (this.uid) {
-          const subscribe = this.usuarioService.buscarPorId(this.uid).subscribe((c: any) => {
-            subscribe.unsubscribe();
-            this.usuario = c;
-          })
-        }
+    if (this.uid) {
+      const subscribe = this.usuarioService.buscarPorId(this.uid).subscribe((c: any) => {
+        subscribe.unsubscribe();
+        this.usuario = c;
+      })
+    }
   }
 
   ionViewDidLoad() {
@@ -43,25 +43,25 @@ export class EditarUsuarioPage {
   }
 
 
-  alterarUsuario(){
-    let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
+  alterarUsuario() {
+    let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom' });
 
     let usuario = {} as Usuario;
 
     usuario.email = this.usuario.email;
     usuario.nome = this.usuario.nome;
-    usuario.tipoUsuario = this.usuario.tipoUsuario; 
+    usuario.tipoUsuario = this.usuario.tipoUsuario;
 
     this.usuarioService.atualizar(this.uid, usuario)
-    .then(() => {
-      toast.setMessage('Usuário alterado com sucesso.');
-    })
-    .catch((error) => {
-      toast.setMessage('Erro ao alterar o usuario.');
-      console.error(error);
-    });
+      .then(() => {
+        toast.setMessage('Usuário alterado com sucesso.');
+      })
+      .catch((error) => {
+        toast.setMessage('Erro ao alterar o usuario.');
+        console.error(error);
+      });
     toast.present();
-    
+
   }
 
 

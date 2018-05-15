@@ -3,6 +3,12 @@ import { /*IonicPage,*/ NavController, NavParams } from 'ionic-angular';
 import { NovoEventoMapaPage } from '../novo-evento-mapa/novo-evento-mapa';
 import { EventoService } from '../../providers/evento-service/evento-service';
 import { Observable } from 'rxjs/Observable';
+import { UtilsProvider } from '../../providers/utils/utils';
+import { UsuarioEventoServiceProvider } from '../../providers/usuario-evento-service/usuario-evento-service';
+import { UsuarioEvento } from '../../models/usuarioEvento';
+import * as firebase from 'firebase';
+import { forEach } from '@firebase/util';
+import { UsuarioService } from '../../providers/usuario-service/usuario-service';
 
 /**
  * Generated class for the ListEventosPage page.
@@ -18,12 +24,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ListEventosPage {
 
+
   eventos: Observable<any>
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private eventoService: EventoService ) {
-      this.eventos = this.eventoService.consultarTodos();
+    private eventoService: EventoService,
+    private usuarioEventoService: UsuarioEventoServiceProvider,
+    private utils: UtilsProvider,
+    private usuarioService: UsuarioService) {
+    this.eventos = this.eventoService.consultarTodos();
 
   }
 
@@ -31,21 +41,31 @@ export class ListEventosPage {
     console.log('ionViewDidLoad ListEventosPage');
   }
 
-
-
-  criaEvento() {
-    console.log('criaEvento()')
-    this.navCtrl.push(NovoEventoMapaPage);
+  amountChange(valorIngresso) {
+    if (valorIngresso)
+      return this.utils.detectAmount(valorIngresso);
+    else
+      return 'Gratuito'
   }
 
-  removerEvento(evento: any){
-    console.log('removerEvento()',evento)
-    this.eventoService.remover(evento);
+  desmarcarPresencaEvento(evento) {
+    this.usuarioEventoService.consultarTodos().forEach(objetos => {
+      debugger;
+      objetos.filter(o => o.usuario === firebase.auth().currentUser.uid && o.evento === evento.key).forEach(objeto => {
+        debugger;
+        this.usuarioEventoService.remover(objeto.key)
+      })
+    });
   }
 
-  editarEvento(evento: any){
-    console.log('editarEvento()',evento)
-    this.navCtrl.push(NovoEventoMapaPage, {evento: evento});
+  marcarPresencaEvento(evento) {
+    this.usuarioEventoService.salvar(evento, firebase.auth().currentUser.uid);
   }
-  
+
+  verificarPresenca(evento) {
+    debugger;
+    let whatever = this.usuarioEventoService.consultarPorUsuario(evento).map(lista => lista.length > 0);
+    return whatever;
+  }
+
 }
