@@ -29,7 +29,7 @@
             
           </ion-card-content>
           <ion-row>
-            <ion-col>
+            <!-- <ion-col>
               <button ion-button icon-left clear small  (click)="desmarcarPresencaEvento(evento)" *ngIf="(verificarPresenca(evento) | async)">
                 <ion-icon name="checkmark" ></ion-icon>
                 <div >Participando</div>
@@ -37,7 +37,7 @@
               <button ion-button icon-left clear small  (click)="marcarPresencaEvento(evento)" *ngIf="!(verificarPresenca(evento) | async)">
                 <div >Participar</div>
               </button>
-            </ion-col>
+            </ion-col> -->
             <ion-col center text-center>
               <ion-note>
                 <div>{{evento.data | date: 'dd/MM/yyyy'}} {{evento.horaInicial}} - {{evento.horaFinal}}</div>
