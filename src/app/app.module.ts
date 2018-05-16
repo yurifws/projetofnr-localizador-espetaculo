@@ -29,6 +29,8 @@ import { HomePage } from '../pages/home/home';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
+import { UtilsProvider } from '../providers/utils/utils';
+import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-service/usuario-evento-service';
 
 //firebase.initializeApp({FIREBASE_CONFIG});
 
@@ -49,7 +51,7 @@ import { GoogleMapsServiceProvider } from '../providers/google-maps-service/goog
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -76,6 +78,8 @@ import { GoogleMapsServiceProvider } from '../providers/google-maps-service/goog
     Facebook,
     GoogleMapsServiceProvider,
     Keyboard,
+    UtilsProvider,
+    UsuarioEventoServiceProvider,
   ]
 })
 export class AppModule {}

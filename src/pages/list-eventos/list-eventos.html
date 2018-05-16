@@ -8,7 +8,7 @@
 
   <ion-navbar color="primary">
     <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Lista Eventos</ion-title>
   </ion-navbar>
@@ -17,33 +17,37 @@
 
 
 <ion-content padding>
-  <ion-fab top right edge>
-      <button ion-fab  color="light" (click)="criaEvento()"> 
-        <ion-icon name="add"></ion-icon>
-      </button>
-  </ion-fab>
-
-  <ion-list>
-          <ion-item-sliding *ngFor="let evento of eventos | async">
-            <ion-item>
-                <ion-thumbnail item-start>
-                    <img src="{{ evento.url }}" alt="">
-                </ion-thumbnail>
-                <h2>{{evento.nome}}</h2>
-                <p>{{evento.logradouro}} ...</p>
-          </ion-item>
-
-           <ion-item-options side="left">
-              <button ion-button color="secondary" (click)="editarEvento(evento)">
-                <ion-icon name="create"></ion-icon> 
-                Alterar 
+  <ion-card>
+    <ion-list>
+      <ion-item-sliding *ngFor="let evento of eventos | async">
+        <ion-item>
+          <img src="{{ evento.url }}" />
+          <ion-card-content>
+            <ion-card-title>{{evento.nome}}</ion-card-title>
+            <p>{{evento.logradouro}}</p>
+            <p>Valor: {{amountChange(evento.valorIngresso)}}</p>
+            
+          </ion-card-content>
+          <ion-row>
+            <!-- <ion-col>
+              <button ion-button icon-left clear small  (click)="desmarcarPresencaEvento(evento)" *ngIf="(verificarPresenca(evento) | async)">
+                <ion-icon name="checkmark" ></ion-icon>
+                <div >Participando</div>
               </button>
-              <button ion-button color="danger" (click)="removerEvento(evento)">
-                <ion-icon name="trash"></ion-icon>  
-                Remover
+              <button ion-button icon-left clear small  (click)="marcarPresencaEvento(evento)" *ngIf="!(verificarPresenca(evento) | async)">
+                <div >Participar</div>
               </button>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
+            </ion-col> -->
+            <ion-col center text-center>
+              <ion-note>
+                <div>{{evento.data | date: 'dd/MM/yyyy'}} {{evento.horaInicial}} - {{evento.horaFinal}}</div>
+              </ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-item>        
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+
 
 </ion-content>

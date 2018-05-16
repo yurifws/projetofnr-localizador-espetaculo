@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
 import { EventoService } from '../../providers/evento-service/evento-service';
 import { ListEventosCriadosPage } from '../list-eventos-criados/list-eventos-criados';
 import * as firebase from 'firebase';
+import { UtilsProvider } from '../../providers/utils/utils';
 
 /**
  * Generated class for the NovoEventoInformacoesPage page.
@@ -18,6 +19,8 @@ import * as firebase from 'firebase';
 })
 export class NovoEventoInformacoesPage {
 
+  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+
   evento: any;
   tituloPagina: string;
   filePhoto: File;
@@ -26,7 +29,8 @@ export class NovoEventoInformacoesPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    private eventoService: EventoService) {
+    private eventoService: EventoService,
+    private utils: UtilsProvider) {
       
     this.evento =  this.navParams.data.evento || {};
     this.setarTituloPagina()
@@ -136,6 +140,10 @@ export class NovoEventoInformacoesPage {
 
   onPhoto(event): void {  
     this.filePhoto = event.target.files[0];
+  }
+
+  amountChange() {
+    this.evento.valorIngresso = this.utils.detectAmount(this.evento.valorIngresso);
   }
 
 }

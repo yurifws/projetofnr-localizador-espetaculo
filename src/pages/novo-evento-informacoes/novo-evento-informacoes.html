@@ -46,6 +46,11 @@
     <ion-label>Hora final</ion-label>
     <ion-datetime displayFormat="HH:mm" [(ngModel)]="evento.horaFinal"></ion-datetime>
   </ion-item>
+  
+  <ion-item>
+    <ion-label>Valor</ion-label>
+    <ion-input type="text" name="money" [(ngModel)]="evento.valorIngresso" placeholder="(R$) Real" (keyup)="amountChange()"></ion-input>
+  </ion-item>
 
   <ion-item>
     <ion-icon name="image" item-start></ion-icon>
