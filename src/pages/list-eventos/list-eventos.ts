@@ -48,19 +48,19 @@ export class ListEventosPage {
       return 'Gratuito'
   }
 
-  desmarcarPresencaEvento(evento) {
-    this.usuarioEventoService.consultarTodos().forEach(objetos => {
-      debugger;
-      objetos.filter(o => o.usuario === firebase.auth().currentUser.uid && o.evento === evento.key).forEach(objeto => {
-        debugger;
-        this.usuarioEventoService.remover(objeto.key)
-      })
-    });
-  }
+  // desmarcarPresencaEvento(evento) {
+  //   this.usuarioEventoService.consultarTodos().forEach(objetos => {
+  //    debugger;
+  //     objetos.filter((o: any) => o.usuario === firebase.auth().currentUser.uid && o.evento === evento.key).forEach(objeto => {
+  //      debugger;
+  //      this.usuarioEventoService.remover(objeto.key)
+  //     })
+  //   });
+  // }
 
-  marcarPresencaEvento(evento) {
-    this.usuarioEventoService.salvar(evento, firebase.auth().currentUser.uid);
-  }
+  // marcarPresencaEvento(evento) {
+  //   this.usuarioEventoService.salvar(evento, firebase.auth().currentUser.uid);
+  // }
 
   verificarPresenca(evento) {
     debugger;
