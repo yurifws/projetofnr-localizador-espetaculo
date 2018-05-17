@@ -9,22 +9,20 @@
 </ion-header>
 
 
-<ion-content >
-  <ion-item>
-    <button ion-button block  (click)="toSignInPage()" >Sign In</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button block (click)="toSignUpPage()">Sign Up</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button block color="danger" (click)="signInWithGoogle()">
+<ion-content text-center class="vertical-align-content">
+    
+
+  <ion-item >
+      <img block src="assets/imgs/logo.png">
+    <button ion-button block margin-top (click)="toSignInPage()" >Sign In</button>
+    <button ion-button block margin-top (click)="toSignUpPage()">Sign Up</button>
+  
+    <button ion-button block margin-top color="danger" (click)="signInWithGoogle()">
         <ion-icon name="logo-google"></ion-icon>
         Google</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button block color="facebook" (click)="signInWithFacebook()">
-      <ion-icon name="logo-facebook"></ion-icon>
-      Facebook</button>
+        <button ion-button block margin-top color="facebook" (click)="signInWithFacebook()">
+            <ion-icon name="logo-facebook"></ion-icon>
+            Facebook</button>
   </ion-item>
 
 </ion-content>
