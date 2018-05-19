@@ -3,7 +3,6 @@ import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, Platform, AlertController, NavParams, Keyboard } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
-import { GoogleMapsServiceProvider } from '../../providers/google-maps-service/google-maps-service';
 import { Observable } from 'rxjs/Observable';
 
 

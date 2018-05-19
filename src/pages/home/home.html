@@ -6,25 +6,23 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>home</ion-title>
-  </ion-navbar>
-
 </ion-header>
 
 
-<ion-content >
-  <ion-item>
-    <button ion-button full (click)="toSignInPage()">SignIn</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button full (click)="toSignUpPage()">SignUp</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button full color="danger" (click)="signInWithGoogle()">Google</button>
-  </ion-item>
-  <ion-item>
-    <button ion-button full color="facebook" (click)="signInWithFacebook()">Facebook</button>
+<ion-content text-center class="vertical-align-content">
+    
+
+  <ion-item >
+      <img block src="assets/imgs/logo.png">
+    <button ion-button block margin-top (click)="toSignInPage()" >Sign In</button>
+    <button ion-button block margin-top (click)="toSignUpPage()">Sign Up</button>
+  
+    <button ion-button block margin-top color="danger" (click)="signInWithGoogle()">
+        <ion-icon name="logo-google"></ion-icon>
+        Google</button>
+        <button ion-button block margin-top color="facebook" (click)="signInWithFacebook()">
+            <ion-icon name="logo-facebook"></ion-icon>
+            Facebook</button>
   </ion-item>
 
 </ion-content>

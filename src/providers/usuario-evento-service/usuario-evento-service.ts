@@ -78,7 +78,7 @@ export class UsuarioEventoServiceProvider {
 
   verificarPresencaUsuario(evento){
     return this.consultarTodos().map(objeto => {
-                              return objeto.filter(value => value.evento === evento.key && value.usuario === firebase.auth().currentUser.uid).length > 0
+                              return objeto.filter((value: any) => value.evento === evento.key && value.usuario === firebase.auth().currentUser.uid).length > 0
                             });
   } 
 

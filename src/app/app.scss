@@ -25,3 +25,12 @@
     font-size: 60px;
 }
 
+@font-face{
+    font-family: Pacifico;
+    src: '../assets/fonts/pacifico.woff2'
+}
+
+*{
+    font-family: Pacifico;
+}
+
