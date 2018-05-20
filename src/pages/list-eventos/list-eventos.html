@@ -24,7 +24,7 @@
           <div (click)="detalhesEvento(evento)">
             <img src="{{ evento.url }}" />
             <ion-card-content>
-              <ion-card-title>{{evento.nome}}</ion-card-title>
+              <ion-card-title color="light">{{evento.nome}}</ion-card-title>
               <p>Valor: {{amountChange(evento.valorIngresso)}}</p>
             </ion-card-content>
             <ion-row>
@@ -35,12 +35,12 @@
           </div>
           <ion-row>
             <ion-col width-50>
-              <button ion-fab left color="secondary">
+              <button ion-button block round left color="secondary">
                 <ion-icon name="checkmark"></ion-icon>
               </button>
             </ion-col>
             <ion-col width-50>
-              <button ion-fab right color="danger">
+              <button ion-button block round right color="danger">
                 <ion-icon name="close"></ion-icon>
               </button>
             </ion-col>

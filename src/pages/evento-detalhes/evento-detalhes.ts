@@ -16,6 +16,7 @@ import { ModalMapsNavPage } from './modal-maps-nav/modal-maps-nav';
 })
 export class EventoDetalhesPage {
 
+  urlSemFoto = 'https://firebasestorage.googleapis.com/v0/b/projeto-localizador-espetaculo.appspot.com/o/semImage.png?alt=media&token=fe7847c9-c517-4f8d-aaf5-5296878cf9a2';
   evento: any = {};
 
   constructor(public navCtrl: NavController,

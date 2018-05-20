@@ -15,21 +15,17 @@
     <img block src="assets/imgs/logo.png">
     <ion-row>
       <ion-col col-6>
-        <button ion-button round margin-top (click)="toSignInPage()">Sign In</button>
+        <button ion-button block round margin-top (click)="toSignInPage()">Sign In</button>
       </ion-col>
       <ion-col col-6>
-        <button ion-button round margin-top (click)="toSignUpPage()">Sign Up</button>
+        <button ion-button block round margin-top (click)="toSignUpPage()">Sign Up</button>
       </ion-col>
-      <ion-col col-6>
-          <button ion-fab block icon-only margin-top color="danger" (click)="signInWithGoogle()">
-            <ion-icon name="logo-google"></ion-icon>
+          <button ion-button block round margin-top color="danger" (click)="signInWithGoogle()">
+            <ion-icon name="logo-google"> Login com Google</ion-icon>
           </button>
-      </ion-col>
-      <ion-col col-6>
-          <button ion-fab block icon-only margin-top color="facebook" (click)="signInWithFacebook()">
-            <ion-icon name="logo-facebook"></ion-icon>
+          <button ion-button block round margin-top color="facebook" (click)="signInWithFacebook()">
+            <ion-icon name="logo-facebook"> Login com Facebook</ion-icon>
           </button>
-      </ion-col>
     </ion-row>
 
 </ion-content>
