@@ -16,6 +16,7 @@ import { map } from 'rxjs/operator/map';
 })
 export class ModalMapsNavPage {
     @ViewChild('map') mapElement: ElementRef;
+    @ViewChild('directionsPanel') directionsPanel: ElementRef;
     evento: any;
 
     constructor(
@@ -29,7 +30,7 @@ export class ModalMapsNavPage {
     ionViewDidLoad() {
         this.googleMapsService.create(this.mapElement);
         if (this.evento) {
-            this.googleMapsService.calculateRoute(this.evento.latitude, this.evento.longitude);
+            this.googleMapsService.calculateRoute(this.evento.latitude, this.evento.longitude, this.directionsPanel);
         } else {
             this.navCtrl.pop();
         }

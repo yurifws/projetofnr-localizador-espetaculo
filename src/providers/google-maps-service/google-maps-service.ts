@@ -24,13 +24,26 @@ export class GoogleMapsServiceProvider {
   create(element: ElementRef) {
     this.getGeolocationPosition().then(position => {
       const mapOptions = {
-        center: position,
-        zoom: 15,
-        streetViewControl: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoomControl: true,
-        disableDefaultUI: true
-      };  
+        camera: {
+          target: position,
+          zoom: 18,
+          tilt: 10
+        },
+        mapType: google.maps.MapTypeId.ROADMAP,
+        controls: {
+          compass: true,
+          myLocationButton: true,
+          indoorPicker: true,
+          zoom: true
+        },
+        gestures: {
+          scroll: true,
+          tilt: true,
+          rotate: true,
+          zoom: true
+        },
+        preferences: null
+      }; 
       this.map = new google.maps.Map(element.nativeElement, mapOptions);
       this.directionsDisplay.setMap(this.map);
     })    
@@ -81,7 +94,7 @@ export class GoogleMapsServiceProvider {
     });
   }
 
-  calculateRoute(lat, lng) {
+  calculateRoute(lat, lng, direcionalPanel?:any) {
     this.getGeolocationPosition().then((position) => {
       if(lng && lat) {
       const request = {
@@ -91,14 +104,16 @@ export class GoogleMapsServiceProvider {
         travelMode: 'DRIVING'
       };
 
-      this.traceRoute(this.directionsService, this.directionsDisplay, request);
+      this.traceRoute(this.directionsService, this.directionsDisplay, request, direcionalPanel);
     }
   });
 
 }
 
-traceRoute(service: any, display: any, request: any) {
-  service.route(request, function (result, status) {
+traceRoute(service: any, display: any, request: any, direcionalPanel?:any) {
+  if(direcionalPanel)
+    display.setPanel(direcionalPanel.nativeElement);
+  service.route(request, (result, status) => {
     if (status == 'OK') {
       display.setDirections(result);
     }

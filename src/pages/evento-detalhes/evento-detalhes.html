@@ -27,7 +27,15 @@
       <p style='text-align: left'>{{evento.logradouro}}, {{evento.bairro}}, {{evento.cidade}}-{{evento.estado}}, {{evento.cep}}</p>
     </ion-col>
     <ion-col col-12>
+        <h1>Endereço</h1>
         <div style='text-align: center'>{{evento.data | date: 'dd/MM/yyyy'}} {{evento.horaInicial}} - {{evento.horaFinal}}</div>
+    </ion-col>
+    <ion-col col-12>
+        <h1>Sinopse</h1>
+        <div style='text-align: center'>{{evento.sinopse}}</div>
+    </ion-col>
+    <ion-col col-12>
+        <div style='text-align: center'>Classificação: {{evento.classificacao}}</div>
     </ion-col>
     <ion-col col-6>
         <button ion-button round color="dark" block>Comprar Ingresso</button>
