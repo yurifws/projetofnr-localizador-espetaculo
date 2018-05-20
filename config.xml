@@ -96,7 +96,7 @@
     </plugin>
     <plugin name="cordova-plugin-googleplus" spec="^5.2.3" />
     <plugin name="com-badrit-base64" spec="^0.2.0" />
-    <allow-navigation href="http://192.168.25.43:8100" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <allow-navigation href="http://192.168.25.43:8100" />
     <engine name="android" spec="7.0.0" />
 </widget>

@@ -10,19 +10,18 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>evento-detalhes</ion-title>
+    <ion-title>{{evento.nome}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  
   <ion-row>
-    <ion-col col-12>
-      <h1 style='text-align: center' >{{evento.nome}}</h1>
-    </ion-col>
-  </ion-row>
-  <ion-row>
+      <ion-avatar *ngIf="evento.url!=urlSemFoto">
+          <img src="{{ evento.url }}" />
+        </ion-avatar>
     <ion-col col-12>
       <p style='text-align: left'>{{evento.logradouro}}, {{evento.bairro}}, {{evento.cidade}}-{{evento.estado}}, {{evento.cep}}</p>
     </ion-col>
@@ -37,11 +36,7 @@
     <ion-col col-12>
         <div style='text-align: center'>Classificação: {{evento.classificacao}}</div>
     </ion-col>
-    <ion-col col-6>
-        <button ion-button round color="dark" block>Comprar Ingresso</button>
-    </ion-col>
-    <ion-col col-6>
-        <button ion-button round color="dark" (click)="abrirMapsTracarRota()" >Traçar Rota</button>
-    </ion-col>
+        <button ion-button block round color="dark" block>Comprar Ingresso</button>
+        <button ion-button block round color="dark" (click)="abrirMapsTracarRota()" >Traçar Rota</button>
   </ion-row>
 </ion-content>
