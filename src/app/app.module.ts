@@ -28,6 +28,9 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { UtilsProvider } from '../providers/utils/utils';
 import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-service/usuario-evento-service';
+import { EventoDetalhesPage } from '../pages/evento-detalhes/evento-detalhes';
+import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
+import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-maps-nav';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-servic
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
-     HomePage
+     EventoDetalhesPage,
+     HomePage,
+     ModalMapsNavPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,9 @@ import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-servic
     ListEventosCriadosPage,
      NovoEventoMapaPage,
      EditarUsuarioPage,
-     HomePage
+     EventoDetalhesPage,
+     HomePage,
+     ModalMapsNavPage
   ],
   providers: [
     StatusBar,
@@ -68,6 +75,7 @@ import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-servic
     Keyboard,
     UtilsProvider,
     UsuarioEventoServiceProvider,
+    GoogleMapsServiceProvider,
   ]
 })
 export class AppModule {}

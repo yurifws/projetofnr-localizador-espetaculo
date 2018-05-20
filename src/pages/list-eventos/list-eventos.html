@@ -21,30 +21,31 @@
     <ion-list>
       <ion-item-sliding *ngFor="let evento of eventos | async">
         <ion-item>
-          <img src="{{ evento.url }}" />
-          <ion-card-content>
-            <ion-card-title>{{evento.nome}}</ion-card-title>
-            <p>{{evento.logradouro}}</p>
-            <p>Valor: {{amountChange(evento.valorIngresso)}}</p>
-            
-          </ion-card-content>
-          <ion-row>
-            <!-- <ion-col>
-              <button ion-button icon-left clear small  (click)="desmarcarPresencaEvento(evento)" *ngIf="(verificarPresenca(evento) | async)">
-                <ion-icon name="checkmark" ></ion-icon>
-                <div >Participando</div>
-              </button>
-              <button ion-button icon-left clear small  (click)="marcarPresencaEvento(evento)" *ngIf="!(verificarPresenca(evento) | async)">
-                <div >Participar</div>
-              </button>
-            </ion-col> -->
-            <ion-col center text-center>
-              <ion-note>
+          <div (click)="detalhesEvento(evento)">
+            <img src="{{ evento.url }}" />
+            <ion-card-content>
+              <ion-card-title>{{evento.nome}}</ion-card-title>
+              <p>Valor: {{amountChange(evento.valorIngresso)}}</p>
+            </ion-card-content>
+            <ion-row>
+              <ion-col center text-center>
                 <div>{{evento.data | date: 'dd/MM/yyyy'}} {{evento.horaInicial}} - {{evento.horaFinal}}</div>
-              </ion-note>
+              </ion-col>
+            </ion-row>
+          </div>
+          <ion-row>
+            <ion-col width-50>
+              <button ion-fab left color="secondary">
+                <ion-icon name="checkmark"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col width-50>
+              <button ion-fab right color="danger">
+                <ion-icon name="close"></ion-icon>
+              </button>
             </ion-col>
           </ion-row>
-        </ion-item>        
+        </ion-item>
       </ion-item-sliding>
     </ion-list>
   </ion-card>

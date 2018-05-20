@@ -9,6 +9,7 @@ import { UsuarioEvento } from '../../models/usuarioEvento';
 import * as firebase from 'firebase';
 import { forEach } from '@firebase/util';
 import { UsuarioService } from '../../providers/usuario-service/usuario-service';
+import { EventoDetalhesPage } from '../evento-detalhes/evento-detalhes';
 
 /**
  * Generated class for the ListEventosPage page.
@@ -67,5 +68,12 @@ export class ListEventosPage {
     let whatever = this.usuarioEventoService.consultarPorUsuario(evento).map(lista => lista.length > 0);
     return whatever;
   }
+
+  detalhesEvento(evento:any){
+    this.navCtrl.push(EventoDetalhesPage, {evento: evento});
+  }
+
+  // 
+ 
 
 }
