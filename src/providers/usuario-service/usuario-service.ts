@@ -1,6 +1,7 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario';
+import firebase from 'firebase';
 
 /*
   Generated class for the UsuarioService provider.
@@ -46,15 +47,27 @@ export class UsuarioService {
     return this.angularFireDatabase.database.ref(this.path + uid).set(usuario);
   }
 
-  atualizar(uid: string, usuario: any){
-    return this.angularFireDatabase.object(this.path + uid).update(usuario);
+  atualizar(uid: string, usuario: Usuario){
+    return this.angularFireDatabase.list(this.path).update(uid, usuario);
 
   }
+
+  public comprarIngresso(evento, protIngresso){
+    return this.angularFireDatabase.object(this.path + this.getUsuarioKey()  + "/" + "ingressos" + '/' + evento).set({
+      ingresso: protIngresso
+    })
+}
 
   remover(){
 
   }
 
+  getUsuarioLogado(){
+    return {...firebase.auth().currentUser.providerData};
+  }
 
+  getUsuarioKey(){
+    return firebase.auth().currentUser.uid;
+  }
 
 }

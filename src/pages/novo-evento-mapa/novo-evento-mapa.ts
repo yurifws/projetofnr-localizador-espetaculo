@@ -82,7 +82,7 @@ export class NovoEventoMapaPage {
   loadMap(lat, lng) {
     function addInfoWindow(descricao: string) {
       return new google.maps.InfoWindow({
-        content: '<div>' + descricao + '</div>'
+        content: '<div class="infoMap">' + descricao + '</div>'
       });
     }
 
@@ -120,6 +120,7 @@ export class NovoEventoMapaPage {
     this.map.addListener('idle', () => {
 
       if (!this.keyboard.isOpen()) {
+        this.markerMinhaLocalizacao.setMap(null);
         
         if (this.markerLocalizacaoDoEvento == null) {
           this.markerLocalizacaoDoEvento = addMarker(this.map.getCenter(), this.map);
@@ -188,7 +189,6 @@ export class NovoEventoMapaPage {
       ]
     });
     alert.present();
-
   }
 
   preecherLocalEvento() {
@@ -225,14 +225,16 @@ export class NovoEventoMapaPage {
     this.autocompleteItems = [];
     this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
       if (status === 'OK' && results[0]) {
+        this.markerMinhaLocalizacao.setMap(null);
         let position = {
           lat: results[0].geometry.location.lat,
           lng: results[0].geometry.location.lng
         };
-        let marker = new google.maps.Marker({
+        this.markerMinhaLocalizacao = new google.maps.Marker({
           position: results[0].geometry.location,
           map: this.map,
         });
+        
         this.map.setCenter(results[0].geometry.location);
       }
     })
