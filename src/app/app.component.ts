@@ -9,6 +9,7 @@ import { AuthService } from '../providers/auth-service/auth-service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
+import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-comprados';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class MyApp {
       { title: 'Eventos', component: ListEventosPage, icon: 'home' },
       { title: 'Eventos Criados', component: ListEventosCriadosPage, icon: 'paper' },
       { title: 'Editar Usuário', component: EditarUsuarioPage, icon: 'person' },
+      { title: 'Meus Ingressos', component: IngressosCompradosPage, icon: 'barcode' },
       // { title: 'Sair', component: LoginPage, icon: 'exit' }
       { title: 'Sair', component: HomePage, icon: 'exit' }
     ];

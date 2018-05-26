@@ -31,6 +31,8 @@ import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-servic
 import { EventoDetalhesPage } from '../pages/evento-detalhes/evento-detalhes';
 import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
 import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-maps-nav';
+import { IngressoServiceProvider } from '../providers/ingresso-service/ingresso-service';
+import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-comprados';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-
      EditarUsuarioPage,
      EventoDetalhesPage,
      HomePage,
-     ModalMapsNavPage
+     ModalMapsNavPage,
+     IngressosCompradosPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-
      EditarUsuarioPage,
      EventoDetalhesPage,
      HomePage,
-     ModalMapsNavPage
+     ModalMapsNavPage,
+     IngressosCompradosPage
   ],
   providers: [
     StatusBar,
@@ -76,6 +80,7 @@ import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-
     UtilsProvider,
     UsuarioEventoServiceProvider,
     GoogleMapsServiceProvider,
+    IngressoServiceProvider,
   ]
 })
 export class AppModule {}

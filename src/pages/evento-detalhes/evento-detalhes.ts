@@ -5,6 +5,7 @@ import { ModalMapsNavPage } from './modal-maps-nav/modal-maps-nav';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { UsuarioService } from '../../providers/usuario-service/usuario-service';
 import { Usuario } from '../../models/usuario';
+import { IngressoServiceProvider } from '../../providers/ingresso-service/ingresso-service';
 
 /**
  * Generated class for the EventoDetalhesPage page.
@@ -29,7 +30,8 @@ export class EventoDetalhesPage {
     public alertCtrl: AlertController,
     public utils: UtilsProvider,
     public usuarioService: UsuarioService,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public ingressoService: IngressoServiceProvider) {
     this.evento = this.navParams.data.evento || {};
   }
 
@@ -67,22 +69,14 @@ export class EventoDetalhesPage {
 
   comprarIngresso() {
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
-    let usuario:any = {} as Usuario;
-    let uid: string = this.usuarioService.getUsuarioKey()
-    const subscribe = this.usuarioService.buscarPorId(uid).subscribe((c: Usuario) => {
-      subscribe.unsubscribe();
-      usuario.email = c.email;
-      usuario.nome = c.nome;
-      usuario.tipoUsuario = c.tipoUsuario;
-      let data: Date = new Date();
-      let chave: string = this.evento.key;
-      let protIngresso: string = '' + data.getFullYear() + data.getMonth() + data.getDay() + data.getHours() + data.getMinutes() + data.getSeconds();
-      this.usuarioService.comprarIngresso(this.evento.key, protIngresso).then(() =>{
-        toast.setMessage('Ingresso Comprado com Sucesso!');                
-      }).catch((e) => {
-        toast.setMessage('Ingresso não foi comprado.');                
-      });
-    });
+    let ingresso:any = {};
+    ingresso.evento = this.evento.key;
+    ingresso.usuario = this.usuarioService.getUsuarioKey();
+    this.ingressoService.salvar(ingresso).then(() =>{
+      toast.setMessage('Ingresso Comprado com Sucesso!');                
+    }, error => {
+      toast.setMessage('Ingresso não foi comprado.');                
+    })
     toast.present();
 
 

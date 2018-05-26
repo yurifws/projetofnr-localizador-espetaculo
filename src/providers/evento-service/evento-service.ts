@@ -15,69 +15,70 @@ export class EventoService {
 
   private path = '/eventos/';
   eventos: AngularFireList<Evento[]>;
-  storageRef:any;
+  storageRef: any;
   basePath: string;
 
-  constructor(public angularFireDatabase: AngularFireDatabase, 
+  constructor(public angularFireDatabase: AngularFireDatabase,
     public firebaseApp: FirebaseApp) {
 
     this.eventos = this.angularFireDatabase.list(this.path);
-    this.basePath = this.path + firebase.auth().currentUser.uid +'/';
+    this.basePath = this.path + firebase.auth().currentUser.uid + '/';
     this.storageRef = this.firebaseApp.storage().ref();
   }
 
-  consultarTodos(){
+  consultarTodos() {
     return this.eventos
-    .snapshotChanges()
-    .map( changes => { 
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val()
-      }))
-    });
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        }))
+      });
 
   }
 
-  consultarPorUsuario(){
-    return this.angularFireDatabase.list(this.path, 
-                                         ref => ref.orderByChild('usuarioCriador')
-                                                   .equalTo(firebase.auth().currentUser.uid))
-                                    .snapshotChanges()
-                                    .map( changes => { 
-                                      return changes.map(c => ({ key: c.payload.key, ...c.payload.val()
-                                      }))
-                                    });
+  consultarPorUsuario() {
+    return this.angularFireDatabase.list(this.path,
+      ref => ref.orderByChild('usuarioCriador')
+        .equalTo(firebase.auth().currentUser.uid))
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        }))
+      });
 
   }
 
-  consultar(key: string){
-    debugger;
-    return this.angularFireDatabase.object(this.path+key)
-    .snapshotChanges()
-    .map(c => { 
-      return { key: c.key, ...c.payload.val()};
+  consultar(key: string) {
+    return this.angularFireDatabase.object(this.path + key)
+      .snapshotChanges()
+      .map(c => {
+        return { key: c.key, ...c.payload.val() };
       })
   }
 
-  public salvar(evento){
-      evento.usuarioCriador =  firebase.auth().currentUser.uid;
-      return this.eventos.push(evento);
+  public salvar(evento) {
+    evento.usuarioCriador = firebase.auth().currentUser.uid;
+    return this.eventos.push(evento);
   }
-  public atualizar(evento){
-      return  this.eventos.update(evento.key, evento);
+  public atualizar(evento) {
+    return this.eventos.update(evento.key, evento);
   }
 
-  uploadESalvar(filePhoto: File){
+  uploadESalvar(filePhoto: File) {
     return firebase.storage().ref().child(this.basePath).put(filePhoto);
   }
 
-  remover(evento){
+  remover(evento) {
     return this.eventos.remove(evento.key);
   }
 
-  private removerArquivo(fullPath: string){
+  private removerArquivo(fullPath: string) {
     this.storageRef.child(fullPath).delete();
   }
 
-  getBasePath(){
+  getBasePath() {
     return this.basePath;
   }
 
