@@ -13,9 +13,9 @@ import { EventoService } from '../evento-service/evento-service';
 export class IngressoServiceProvider {
   private ingressos:any;
   private path = '/ingressos/';
+  private eventoPath = '/eventos/';
 
-  constructor(public angularFireDatabase: AngularFireDatabase,
-              public eventoService: EventoService) {
+  constructor(private angularFireDatabase: AngularFireDatabase) {
     this.ingressos = this.angularFireDatabase.list(this.path);
   }
 
@@ -37,13 +37,16 @@ export class IngressoServiceProvider {
       ref => ref.orderByChild('usuario')
         .equalTo(usuario))
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
+      .map(ingressos => {
+        return ingressos.map(c => ({
           key: c.payload.key, ...c.payload.val()
         })).map(ingresso => {
           ingresso.eventoPreenchido = {};
-          const c = this.eventoService.consultar(ingresso.evento).subscribe(evento => {
-            c.unsubscribe();
+          this.angularFireDatabase.object(this.eventoPath + ingresso.evento)
+          .snapshotChanges()
+          .map(c => {
+            return { key: c.key, ...c.payload.val() };
+          }).subscribe(evento => {
             ingresso.eventoPreenchido = evento;
           })
           return ingresso;
@@ -59,6 +62,18 @@ export class IngressoServiceProvider {
                .snapshotChanges()
                .map( changes => { 
                  return changes.map(c => ({ key: c.payload.key, ...c.payload.val()
+                 }))
+               });
+  }
+
+  consultarPorEvento(eventoKey){
+    return this.angularFireDatabase
+               .list(this.path, 
+                     ref => ref.orderByChild('evento')
+                              .equalTo(eventoKey))
+               .snapshotChanges()
+               .map( evento => { 
+                 return evento.map(c => ({ key: c.payload.key, ...c.payload.val()
                  }))
                });
   }

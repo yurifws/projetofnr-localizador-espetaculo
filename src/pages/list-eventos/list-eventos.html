@@ -35,12 +35,12 @@
           </div>
           <ion-row>
             <ion-col width-50>
-              <button ion-button block round left color="secondary">
+              <button ion-button block round left color="secondary" *ngIf="!evento.usuarioOpinou || evento.interessado" (click)="temInteresse(evento, true)">
                 <ion-icon name="thumbs-up"></ion-icon>
               </button>
             </ion-col>
             <ion-col width-50>
-              <button ion-button block round right color="danger">
+              <button ion-button block round right color="danger" *ngIf="!evento.usuarioOpinou || !evento.interessado" (click)="temInteresse(evento, false)">
                 <ion-icon name="thumbs-down"></ion-icon>
               </button>
             </ion-col>

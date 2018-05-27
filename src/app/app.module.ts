@@ -27,12 +27,12 @@ import { HomePage } from '../pages/home/home';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { UtilsProvider } from '../providers/utils/utils';
-import { UsuarioEventoServiceProvider } from '../providers/usuario-evento-service/usuario-evento-service';
 import { EventoDetalhesPage } from '../pages/evento-detalhes/evento-detalhes';
 import { GoogleMapsServiceProvider } from '../providers/google-maps-service/google-maps-service';
 import { ModalMapsNavPage } from '../pages/evento-detalhes/modal-maps-nav/modal-maps-nav';
 import { IngressoServiceProvider } from '../providers/ingresso-service/ingresso-service';
 import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-comprados';
+import { InteressadosServiceProvider } from '../providers/interessados-service/interessados-service';
 
 @NgModule({
   declarations: [
@@ -78,9 +78,9 @@ import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-c
     Facebook,
     Keyboard,
     UtilsProvider,
-    UsuarioEventoServiceProvider,
     GoogleMapsServiceProvider,
     IngressoServiceProvider,
+    InteressadosServiceProvider,
   ]
 })
 export class AppModule {}

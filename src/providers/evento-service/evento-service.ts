@@ -3,6 +3,8 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Evento } from '../../models/evento';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
+import { InteressadosServiceProvider } from '../interessados-service/interessados-service';
+import { IngressoServiceProvider } from '../ingresso-service/ingresso-service';
 
 /*
   Generated class for the EventoProvider provider.
@@ -19,7 +21,9 @@ export class EventoService {
   basePath: string;
 
   constructor(public angularFireDatabase: AngularFireDatabase,
-    public firebaseApp: FirebaseApp) {
+    public firebaseApp: FirebaseApp,
+    private interessadosService: InteressadosServiceProvider,
+    private ingressoService: IngressoServiceProvider) {
 
     this.eventos = this.angularFireDatabase.list(this.path);
     this.basePath = this.path + firebase.auth().currentUser.uid + '/';
@@ -47,7 +51,43 @@ export class EventoService {
           key: c.payload.key, ...c.payload.val()
         }))
       });
+  }
 
+  consultarEventoAndInteressado() {
+    return this.eventos
+      .snapshotChanges()
+      .map(eventos => {
+        return eventos.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        })).map(evento => {
+          evento.usuarioOpinou = false;
+          this.interessadosService.consultarPorUsuario().subscribe(interessados => {
+            interessados.filter(interessado => interessado.evento === evento.key).forEach(interessado => {
+              evento.usuarioOpinou = true;
+              evento.interessado = interessado.temInteresse;
+            });
+          });
+          return evento;
+        })
+      });
+  }
+
+  consultarEventoAndTotalParticipantes() {
+    return this.angularFireDatabase.list(this.path,
+      ref => ref.orderByChild('usuarioCriador')
+        .equalTo(firebase.auth().currentUser.uid))
+      .snapshotChanges()
+      .map(eventos => {
+        return eventos.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        })).map(evento => {
+          evento.totalParticipantes = 0
+          this.ingressoService.consultarPorEvento(evento.key).subscribe(ingressos => {
+            evento.totalParticipantes = ingressos.length;
+          });
+          return evento;
+        })
+      });
   }
 
   consultar(key: string) {

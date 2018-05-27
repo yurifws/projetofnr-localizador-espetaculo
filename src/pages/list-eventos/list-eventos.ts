@@ -4,12 +4,11 @@ import { NovoEventoMapaPage } from '../novo-evento-mapa/novo-evento-mapa';
 import { EventoService } from '../../providers/evento-service/evento-service';
 import { Observable } from 'rxjs/Observable';
 import { UtilsProvider } from '../../providers/utils/utils';
-import { UsuarioEventoServiceProvider } from '../../providers/usuario-evento-service/usuario-evento-service';
-import { UsuarioEvento } from '../../models/usuarioEvento';
 import * as firebase from 'firebase';
 import { forEach } from '@firebase/util';
 import { UsuarioService } from '../../providers/usuario-service/usuario-service';
 import { EventoDetalhesPage } from '../evento-detalhes/evento-detalhes';
+import { InteressadosServiceProvider } from '../../providers/interessados-service/interessados-service';
 
 /**
  * Generated class for the ListEventosPage page.
@@ -31,11 +30,15 @@ export class ListEventosPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private eventoService: EventoService,
-    private usuarioEventoService: UsuarioEventoServiceProvider,
     private utils: UtilsProvider,
-    private usuarioService: UsuarioService) {
-    this.eventos = this.eventoService.consultarTodos();
+    private usuarioService: UsuarioService,
+    private interessadosService: InteressadosServiceProvider) {
+    this.consultarEvento();
 
+  }
+
+  consultarEvento() {
+    this.eventos = this.eventoService.consultarEventoAndInteressado();
   }
 
   ionViewDidLoad() {
@@ -49,31 +52,34 @@ export class ListEventosPage {
       return 'Gratuito'
   }
 
-  // desmarcarPresencaEvento(evento) {
-  //   this.usuarioEventoService.consultarTodos().forEach(objetos => {
-  //    debugger;
-  //     objetos.filter((o: any) => o.usuario === firebase.auth().currentUser.uid && o.evento === evento.key).forEach(objeto => {
-  //      debugger;
-  //      this.usuarioEventoService.remover(objeto.key)
-  //     })
-  //   });
-  // }
-
-  // marcarPresencaEvento(evento) {
-  //   this.usuarioEventoService.salvar(evento, firebase.auth().currentUser.uid);
-  // }
-
-  verificarPresenca(evento) {
-    debugger;
-    let whatever = this.usuarioEventoService.consultarPorUsuario(evento).map(lista => lista.length > 0);
-    return whatever;
+  temInteresse(evento, interesse) {
+    if (evento.interessado === undefined) {
+      let interessado: any = {};
+      interessado.evento = evento.key;
+      interessado.usuario = this.usuarioService.getUsuarioKey();
+      interessado.temInteresse = interesse;
+      this.interessadosService.salvar(interessado).then(() => {
+        evento.interessado = interesse;
+      });
+    } else {
+      const c = this.interessadosService.consultarPorUsuario().subscribe(interessados => {
+        c.unsubscribe();
+        interessados.filter(interessado => interessado.evento === evento.key).forEach(interessado => {
+          evento.usuarioOpinou = false;
+          this.interessadosService.remover(interessado.key).then(() => {
+            evento.interessado = undefined;
+            evento.usuarioOpinou = false;
+          });
+        })
+      })
+    }
   }
 
-  detalhesEvento(evento:any){
-    this.navCtrl.push(EventoDetalhesPage, {evento: evento});
+  detalhesEvento(evento: any) {
+    this.navCtrl.push(EventoDetalhesPage, { evento: evento });
   }
 
   // 
- 
+
 
 }
