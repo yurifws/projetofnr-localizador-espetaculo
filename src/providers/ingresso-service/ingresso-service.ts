@@ -57,7 +57,7 @@ export class IngressoServiceProvider {
   consultarPorUsuario(){
     return this.angularFireDatabase
                .list(this.path, 
-                     ref => ref.orderByChild('usuarioCriador')
+                     ref => ref.orderByChild('usuario')
                               .equalTo(firebase.auth().currentUser.uid))
                .snapshotChanges()
                .map( changes => { 

@@ -43,7 +43,7 @@ export class EventoService {
 
   consultarPorUsuario() {
     return this.angularFireDatabase.list(this.path,
-      ref => ref.orderByChild('usuarioCriador')
+      ref => ref.orderByChild('usuario')
         .equalTo(firebase.auth().currentUser.uid))
       .snapshotChanges()
       .map(changes => {
@@ -74,7 +74,7 @@ export class EventoService {
 
   consultarEventoAndTotalParticipantes() {
     return this.angularFireDatabase.list(this.path,
-      ref => ref.orderByChild('usuarioCriador')
+      ref => ref.orderByChild('usuario')
         .equalTo(firebase.auth().currentUser.uid))
       .snapshotChanges()
       .map(eventos => {
