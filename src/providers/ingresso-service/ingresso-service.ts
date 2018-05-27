@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { EventoService } from '../evento-service/evento-service';
 
 /*
   Generated class for the IngressoProvider provider.
@@ -13,7 +14,8 @@ export class IngressoServiceProvider {
   private ingressos:any;
   private path = '/ingressos/';
 
-  constructor(public angularFireDatabase: AngularFireDatabase) {
+  constructor(public angularFireDatabase: AngularFireDatabase,
+              public eventoService: EventoService) {
     this.ingressos = this.angularFireDatabase.list(this.path);
   }
 
@@ -28,6 +30,25 @@ export class IngressoServiceProvider {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val()
       }))
     });
+  }
+
+  consultarIngressosAndEventoPorUsuario(usuario){
+    return this.angularFireDatabase.list(this.path,
+      ref => ref.orderByChild('usuario')
+        .equalTo(usuario))
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        })).map(ingresso => {
+          ingresso.eventoPreenchido = {};
+          const c = this.eventoService.consultar(ingresso.evento).subscribe(evento => {
+            c.unsubscribe();
+            ingresso.eventoPreenchido = evento;
+          })
+          return ingresso;
+        })
+      });
   }
 
   consultarPorUsuario(){

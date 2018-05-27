@@ -16,9 +16,9 @@
   <ion-list>
     <ion-item-sliding *ngFor="let ingresso of ingressos | async">
       <ion-item>
-        <h2>{{buscarEvento(ingresso.evento).nome}} </h2>
-        <p>Valor: {{amountChange(buscarEvento(ingresso.evento).valorIngresso)}}</p>
-        <ion-note item-end>{{buscarEvento(ingresso.evento).data | date: 'dd/MM/yyyy'}} {{buscarEvento(ingresso.evento).horaInicial}} - {{buscarEvento(ingresso.evento).horaFinal}}</ion-note>
+        <h2>{{ingresso.eventoPreenchido.nome}} </h2>
+        <p>Valor: {{amountChange(ingresso.eventoPreenchido.valorIngresso)}}</p>
+        <ion-note item-end>{{ingresso.eventoPreenchido.data | date: 'dd/MM/yyyy'}} {{ingresso.eventoPreenchido.horaInicial}} - {{ingresso.eventoPreenchido.horaFinal}}</ion-note>
       </ion-item>
     </ion-item-sliding>
   </ion-list>

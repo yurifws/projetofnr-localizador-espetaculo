@@ -5,6 +5,7 @@ import { EventoService } from '../../providers/evento-service/evento-service';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
+import { UsuarioService } from '../../providers/usuario-service/usuario-service';
 
 /**
  * Generated class for the IngressosCompradosPage page.
@@ -25,8 +26,9 @@ export class IngressosCompradosPage {
               public navParams: NavParams,
               private ingressoService: IngressoServiceProvider,
               private eventoService: EventoService,
+              private usuarioService: UsuarioService,
               private utils: UtilsProvider) {
-      this.ingressos = this.ingressoService.consultarTodos();
+      this.ingressos = this.ingressoService.consultarIngressosAndEventoPorUsuario(usuarioService.getUsuarioKey());
   }
 
   ionViewDidLoad() {
