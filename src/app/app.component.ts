@@ -43,7 +43,6 @@ export class MyApp {
 
   atualizarMenu() {
     const authObserver = this.afAuth.authState.subscribe((usuario: any) => {
-      authObserver.unsubscribe();
       if (usuario) {
         const usuarioObserver = this.usuarioService.buscarPorId(usuario.uid).subscribe(usuarioAux => {
           if (usuarioAux.tipoUsuario === undefined)
