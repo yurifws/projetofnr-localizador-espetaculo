@@ -21,6 +21,7 @@ import { UsuarioService } from '../../providers/usuario-service/usuario-service'
 export class IngressosCompradosPage {
 
   ingressos:any;
+  ingressoSubject;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -35,19 +36,15 @@ export class IngressosCompradosPage {
     console.log('ionViewDidLoad IngressosCompradosPage');
   }
 
-  buscarEvento(evento){
-    let eventoAux:any = {};
-    this.eventoService.consultar(evento).subscribe(e => {
-      eventoAux = e;
-    });
-    return eventoAux;
-  }
-
   amountChange(valorIngresso) {
     if (valorIngresso)
       return 'R$' + this.utils.detectAmount(valorIngresso);
     else
       return 'Gratuito'
+  }
+
+  ionViewWillLeave(){
+    this.ingressos.subscribe().unsubscribe();
   }
 
 }

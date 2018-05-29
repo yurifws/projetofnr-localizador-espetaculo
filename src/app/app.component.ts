@@ -10,6 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { EditarUsuarioPage } from "../pages/editar-usuario/editar-usuario";
 import { HomePage } from '../pages/home/home';
 import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-comprados';
+import { UsuarioService } from '../providers/usuario-service/usuario-service';
 
 
 @Component({
@@ -17,43 +18,52 @@ import { IngressosCompradosPage } from '../pages/ingressos-comprados/ingressos-c
   templateUrl: 'app.html'
 })
 export class MyApp {
-  
+
   @ViewChild(Nav) nav: Nav;
   // rootPage: any = LoginPage;
   rootPage: any = HomePage;
-  pages: Array<{title: string, component: any, icon: string}>;
-  activePage:any;
-  id:any;
+  pages: Array<{ title: string, component: any, icon: string, show: boolean }>;
+  activePage: any;
+  showMeusEventos: boolean = false;
+  id: any;
 
-  constructor(public platform: Platform, 
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen, 
+  constructor(public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
     private authService: AuthService,
-    private afAuth: AngularFireAuth){
+    private afAuth: AngularFireAuth,
+    private usuarioService: UsuarioService) {
     this.initializeApp();
 
-    this.pages = [
-      { title: 'Eventos', component: ListEventosPage, icon: 'home' },
-      { title: 'Eventos Criados', component: ListEventosCriadosPage, icon: 'paper' },
-      { title: 'Editar Usuário', component: EditarUsuarioPage, icon: 'person' },
-      { title: 'Meus Ingressos', component: IngressosCompradosPage, icon: 'barcode' },
-      // { title: 'Sair', component: LoginPage, icon: 'exit' }
-      { title: 'Sair', component: HomePage, icon: 'exit' }
-    ];
+    this.atualizarMenu();
 
     this.activePage = this.pages[0];
 
-    const authObserver = this.afAuth.authState.subscribe((usuario:any) => {
-      if(usuario){
-        this.id = usuario.uid;
-        console.log('logado', usuario )
-        this.rootPage = ListEventosPage;
-        authObserver.unsubscribe();
+  }
+
+  atualizarMenu() {
+    const authObserver = this.afAuth.authState.subscribe((usuario: any) => {
+      authObserver.unsubscribe();
+      if (usuario) {
+        const usuarioObserver = this.usuarioService.buscarPorId(usuario.uid).subscribe(usuarioAux => {
+          if (usuarioAux.tipoUsuario === undefined)
+            this.showMeusEventos = false;
+          else
+            this.showMeusEventos = usuarioAux.tipoUsuario;
+
+        })
+        console.log('logado', usuario)
       }
     });
 
-
-
+    this.pages = [
+      { title: 'Eventos', component: ListEventosPage, icon: 'map', show: true },
+      { title: 'Meus Eventos', component: ListEventosCriadosPage, icon: 'paper', show: this.showMeusEventos },
+      { title: 'Editar Usuário', component: EditarUsuarioPage, icon: 'person', show: true },
+      { title: 'Meus Ingressos', component: IngressosCompradosPage, icon: 'barcode', show: true },
+      // { title: 'Sair', component: LoginPage, icon: 'exit' }
+      { title: 'Sair', component: HomePage, icon: 'exit', show: true }
+    ];
   }
 
   initializeApp() {
@@ -68,18 +78,23 @@ export class MyApp {
   openPage(page: any) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    if(page.component == HomePage){
+    if (page.component == HomePage) {
       this.authService.signOut().catch((error: any) => {
         console.error(error)
       });
-    }else{
+    } else {
       this.activePage = page;
     }
-    
+
     this.nav.setRoot(page.component);
   }
 
-  checkActive(page){
+  checkActive(page) {
     return page == this.activePage;
   }
+
+  menuOpened() {
+    // this.atualizarMenu();
+  }
+
 }

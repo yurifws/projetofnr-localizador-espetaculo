@@ -22,7 +22,7 @@ export class AuthService {
     this.angularFireAuth.auth.languageCode = 'pt-br';
   }
 
-  fbAuth(){
+  fbAuth() {
     return this.angularFireAuth.auth;
   }
 
@@ -31,25 +31,19 @@ export class AuthService {
   }
 
   logar(usuario: Usuario) {
+    firebase.database().goOnline();
     return this.angularFireAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.senha);
 
   }
 
   signOut() {
-    debugger;
     let authProviders = this.angularFireAuth.auth.currentUser.providerData;
     if (authProviders.length) {
       authProviders.forEach(provider => {
         if (provider.providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID)
           return this.googlePlus.disconnect()
-            .then(() => {
-              return this.deslogarFirebase();
-            });
         else if (provider.providerId == firebase.auth.FacebookAuthProvider.PROVIDER_ID)
           return this.facebook.logout()
-            .then(() => {
-              return this.deslogarFirebase();
-            })
       })
     }
     return this.deslogarFirebase();
@@ -57,7 +51,8 @@ export class AuthService {
 
   deslogarFirebase() {
     console.log('deslogar');
-    return this.angularFireAuth.auth.signOut();
+    firebase.database().goOffline();
+    return this.angularFireAuth.auth.signOut().then(() => console.log('logout firebase'));
   }
 
   resetarSenhaUsuario(email: string) {
@@ -69,10 +64,10 @@ export class AuthService {
       'webClientId': '536922654223-qt4lq7e508th74m4o72t3aqj06hl5hb7.apps.googleusercontent.com',
       'offline': true
     }).then(res => {
-      this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
+       this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then((user: firebase.User) => {
-          debugger;
-          let usuario:any = {} as Usuario;
+          firebase.database().goOnline();
+          let usuario: any = {} as Usuario;
           usuario.nome = user.displayName;
           usuario.email = user.email;
           usuario.photoURL = user.photoURL;
@@ -90,20 +85,19 @@ export class AuthService {
         return this.angularFireAuth.auth
           .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken))
           .then((user: firebase.User) => {
-            debugger;
+            firebase.database().goOnline();
             console.log(user);
-            let usuario:any = {} as Usuario;  
-              this.facebook.api("/me?fields=id,email,name,picture", ["public_profile"])
-                .then(response => {
-                  debugger;
-                  usuario.nome = response.name;
-                  usuario.email = response.email;
-                  usuario.tipoUsuario = false;
-                  usuario.photoURL = response.picture.data.url;            
-                  // console.log(response);
-                  // console.log(usuario);
-                  this.usuarioService.salvar(user.uid, usuario);
-                });
+            let usuario: any = {} as Usuario;
+            this.facebook.api("/me?fields=id,email,name,picture", ["public_profile"])
+              .then(response => {
+                usuario.nome = response.name;
+                usuario.email = response.email;
+                usuario.tipoUsuario = false;
+                usuario.photoURL = response.picture.data.url;
+                // console.log(response);
+                // console.log(usuario);
+                this.usuarioService.salvar(user.uid, usuario);
+              });
           });
       })
       .catch((e) => {
@@ -111,10 +105,10 @@ export class AuthService {
       });
   }
 
-  retornarUidUsuarioLogado(){
+  retornarUidUsuarioLogado() {
     return this.angularFireAuth.auth.currentUser.uid;
   }
-  
+
 
 
 }

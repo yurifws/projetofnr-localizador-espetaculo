@@ -52,12 +52,6 @@ export class UsuarioService {
 
   }
 
-  public comprarIngresso(evento, protIngresso){
-    return this.angularFireDatabase.object(this.path + this.getUsuarioKey()  + "/" + "ingressos" + '/' + evento).set({
-      ingresso: protIngresso
-    })
-}
-
   remover(){
 
   }

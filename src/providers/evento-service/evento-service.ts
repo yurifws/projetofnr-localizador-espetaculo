@@ -5,6 +5,7 @@ import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { InteressadosServiceProvider } from '../interessados-service/interessados-service';
 import { IngressoServiceProvider } from '../ingresso-service/ingresso-service';
+import { Subscription } from 'rxjs/Subscription';
 
 /*
   Generated class for the EventoProvider provider.
@@ -51,9 +52,9 @@ export class EventoService {
           key: c.payload.key, ...c.payload.val()
         }))
       });
-  }
+  }  
 
-  consultarEventoAndInteressado() {
+  consultarEventoAndInteressado() {    
     return this.eventos
       .snapshotChanges()
       .map(eventos => {
@@ -74,7 +75,7 @@ export class EventoService {
 
   consultarEventoAndTotalParticipantes() {
     return this.angularFireDatabase.list(this.path,
-      ref => ref.orderByChild('usuario')
+      ref => ref.orderByChild('usuarioCriador')
         .equalTo(firebase.auth().currentUser.uid))
       .snapshotChanges()
       .map(eventos => {
@@ -111,7 +112,20 @@ export class EventoService {
   }
 
   remover(evento) {
-    return this.eventos.remove(evento.key);
+    return this.eventos.remove(evento.key).then(() => {
+      const c = this.interessadosService.consultarPorEvento(evento.key).subscribe((interessados) => {
+        c.unsubscribe();
+        interessados.forEach((interessado) => {
+          this.interessadosService.remover(interessado);
+        })
+      })
+      const e = this.ingressoService.consultarPorEvento(evento.key).subscribe((ingressos) => {
+        e.unsubscribe();
+        ingressos.forEach((ingresso) => {
+          this.ingressoService.remover(ingresso);
+        })
+      })
+    });
   }
 
   private removerArquivo(fullPath: string) {

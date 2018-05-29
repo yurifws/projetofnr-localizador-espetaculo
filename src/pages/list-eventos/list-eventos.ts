@@ -24,8 +24,7 @@ import { InteressadosServiceProvider } from '../../providers/interessados-servic
 })
 export class ListEventosPage {
 
-
-  eventos: Observable<any>
+  eventos:Observable<any[]>
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,

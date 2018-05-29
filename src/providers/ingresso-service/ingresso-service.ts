@@ -46,7 +46,8 @@ export class IngressoServiceProvider {
           .snapshotChanges()
           .map(c => {
             return { key: c.key, ...c.payload.val() };
-          }).subscribe(evento => {
+          })
+          .subscribe(evento => {
             ingresso.eventoPreenchido = evento;
           })
           return ingresso;

@@ -40,4 +40,16 @@ export class InteressadosServiceProvider {
       });
   }
 
+  consultarPorEvento(eventoKey) {
+    return this.angularFireDatabase.list(this.path,
+      ref => ref.orderByChild('evento')
+        .equalTo(eventoKey))
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key, ...c.payload.val()
+        }))
+      });
+  }
+
 }

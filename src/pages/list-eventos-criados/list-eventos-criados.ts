@@ -46,5 +46,9 @@ export class ListEventosCriadosPage {
     console.log('editarEvento()',evento)
     this.navCtrl.push(NovoEventoMapaPage, {evento: evento});
   }
+
+  ionViewWillLeave(){
+    this.eventos.subscribe().unsubscribe();
+  }
   
 }

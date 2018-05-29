@@ -43,7 +43,8 @@ export class HomePage {
   signInWithGoogle(){
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
     this.authService.signInWithGoogle()
-      .then(() => {
+      .then((res) => {
+        console.log('login com google -> ' + res);
         this.navCtrl.setRoot(ListEventosPage);
       })
       .catch((e) => {
