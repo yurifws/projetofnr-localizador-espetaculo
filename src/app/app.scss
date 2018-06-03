@@ -25,6 +25,16 @@
     font-size: 60px;
 }
 
+.error {
+    color: rgb(223, 62, 62);
+    font-size: 11px;
+  }
+
+.error1 {
+color: rgb(75, 75, 75);
+border-bottom: 1px solid #ff0000;
+}
+
 @font-face{
     font-family: Pacifico;
     src: '../assets/fonts/pacifico.woff2'

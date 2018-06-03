@@ -18,7 +18,7 @@ import { UsuarioService } from "../../providers/usuario-service/usuario-service"
 })
 export class EditarUsuarioPage {
 
-  usuario = {} as Usuario;
+  usuario:any = {} as Usuario;
   uid: any;
 
   constructor(

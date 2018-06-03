@@ -3,6 +3,7 @@ import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Usuario } from '../../models/usuario';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 
 /**
  * Generated class for the LoginPage page.
@@ -19,13 +20,18 @@ import { Usuario } from '../../models/usuario';
 export class LoginPage {
 
   usuario = {} as Usuario;
+  formGroup;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     private authService: AuthService,
-    public toastCtrl: ToastController) {
-    
-      
+    public toastCtrl: ToastController,
+    private formBuilder: FormBuilder) {
+      let EMAILPATTERN = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+      this.formGroup = formBuilder.group({
+        email:new FormControl('', Validators.compose([Validators.required, Validators.pattern(EMAILPATTERN)])),
+        senha:new FormControl('', Validators.compose([Validators.minLength(6), Validators.required])),
+      })
   }
 
   ionViewDidLoad() {
@@ -43,6 +49,7 @@ export class LoginPage {
 
     this.authService.logar(this.usuario).then((retorno)=> {
       if(retorno.emailVerified){
+        this.authService.firebaseDatabaseToOnline();
         this.navCtrl.setRoot(ListEventosPage);
       } else {
         toast.setMessage('Seu E-mail ainda não foi verificado.');        

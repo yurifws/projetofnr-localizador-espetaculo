@@ -31,7 +31,6 @@ export class AuthService {
   }
 
   logar(usuario: Usuario) {
-    firebase.database().goOnline();
     return this.angularFireAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.senha);
 
   }
@@ -50,8 +49,8 @@ export class AuthService {
   }
 
   deslogarFirebase() {
-    console.log('deslogar');
     firebase.database().goOffline();
+    console.log('deslogar');
     return this.angularFireAuth.auth.signOut().then(() => console.log('logout firebase'));
   }
 
@@ -64,13 +63,19 @@ export class AuthService {
       'webClientId': '536922654223-qt4lq7e508th74m4o72t3aqj06hl5hb7.apps.googleusercontent.com',
       'offline': true
     }).then(res => {
-       this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
+      this.angularFireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then((user: firebase.User) => {
           firebase.database().goOnline();
           let usuario: any = {} as Usuario;
+          const userSubscribe = this.usuarioService.buscarPorId(user.uid).subscribe((usuarioAux) => {
+            userSubscribe.unsubscribe();
+            usuario = usuarioAux;
+          })
           usuario.nome = user.displayName;
           usuario.email = user.email;
           usuario.photoURL = user.photoURL;
+          if (usuario.tipoUsuario === undefined)
+            usuario.tipoUsuario = false;
           return this.usuarioService.salvar(user.uid, usuario);
         });
     }).catch((e) => {
@@ -90,13 +95,17 @@ export class AuthService {
             let usuario: any = {} as Usuario;
             this.facebook.api("/me?fields=id,email,name,picture", ["public_profile"])
               .then(response => {
-                usuario.nome = response.name;
-                usuario.email = response.email;
-                usuario.tipoUsuario = false;
-                usuario.photoURL = response.picture.data.url;
-                // console.log(response);
-                // console.log(usuario);
-                this.usuarioService.salvar(user.uid, usuario);
+                const userSubscribe = this.usuarioService.buscarPorId(user.uid).subscribe((usuarioAux) => {
+                  userSubscribe.unsubscribe();
+                  usuario = usuarioAux;
+                  usuario.nome = response.name;
+                  usuario.email = response.email;
+                  usuario.photoURL = response.picture.data.url;
+                  if (usuario.tipoUsuario === undefined)
+                    usuario.tipoUsuario = false;
+                  this.usuarioService.salvar(user.uid, usuario);
+                });
+
               });
           });
       })
@@ -109,6 +118,9 @@ export class AuthService {
     return this.angularFireAuth.auth.currentUser.uid;
   }
 
+  firebaseDatabaseToOnline() {
+    firebase.database().goOnline();
+  }
 
 
 }

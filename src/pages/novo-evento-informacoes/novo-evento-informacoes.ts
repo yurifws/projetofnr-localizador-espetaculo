@@ -4,6 +4,7 @@ import { EventoService } from '../../providers/evento-service/evento-service';
 import { ListEventosCriadosPage } from '../list-eventos-criados/list-eventos-criados';
 import * as firebase from 'firebase';
 import { UtilsProvider } from '../../providers/utils/utils';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 
 /**
  * Generated class for the NovoEventoInformacoesPage page.
@@ -19,6 +20,7 @@ import { UtilsProvider } from '../../providers/utils/utils';
 })
 export class NovoEventoInformacoesPage {
 
+  formGroup;
   public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
 
   evento: any;
@@ -30,11 +32,18 @@ export class NovoEventoInformacoesPage {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     private eventoService: EventoService,
-    private utils: UtilsProvider) {
+    private utils: UtilsProvider,
+    private formBuilder: FormBuilder) {
       
+    let NOME_PARTERN = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/;
     this.evento =  this.navParams.data.evento || {};
     this.setarTituloPagina()
-      
+    this.formGroup = formBuilder.group({
+      nome: new FormControl('', Validators.compose([Validators.required, Validators.pattern(NOME_PARTERN)])),
+      data:new FormControl('', Validators.compose([Validators.required])),
+      horaInicial:new FormControl('', Validators.compose([Validators.required])),
+      horaFinal:new FormControl('', Validators.compose([Validators.required])),
+    })
   }
 
   setarTituloPagina(){

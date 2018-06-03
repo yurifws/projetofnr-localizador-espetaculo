@@ -21,6 +21,7 @@ import { UsuarioService } from '../../providers/usuario-service/usuario-service'
 export class IngressosCompradosPage {
 
   ingressos:any;
+  
   ingressoSubject;
 
   constructor(public navCtrl: NavController, 
@@ -41,10 +42,6 @@ export class IngressosCompradosPage {
       return 'R$' + this.utils.detectAmount(valorIngresso);
     else
       return 'Gratuito'
-  }
-
-  ionViewWillLeave(){
-    this.ingressos.subscribe().unsubscribe();
   }
 
 }

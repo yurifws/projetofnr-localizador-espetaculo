@@ -89,4 +89,19 @@ export class EventoDetalhesPage {
       return 'Gratuito'
   }
 
+  descClassificacao(opcao){
+    if(opcao === '0')
+      return 'Livre';
+    else if (opcao === '1')
+      return 'A partir de 10 anos';
+    else if (opcao === '2')
+      return 'A partir de 12 anos';
+    else if (opcao === '3')
+      return 'A partir de 14 anos';
+    else if (opcao === '4')
+      return 'A partir de 16 anos';
+    else if (opcao === '5')
+      return 'A partir de 18 anos';
+  }
+
 }

@@ -16,45 +16,90 @@
 
 
 <ion-content padding>
+  <form [formGroup]="formGroup">
+    <ion-item>
+      <ion-label flooting>Nome:</ion-label>
+      <ion-input formControlName="nome" type="text" [(ngModel)]="evento.nome"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label flooting>Nome:</ion-label>
-    <ion-input type="text" [(ngModel)]="evento.nome"></ion-input>
-  </ion-item>
-    
-  <ion-item>
-    <ion-label flooting>Sinopse:</ion-label>
-    <ion-input type="text" [(ngModel)]="evento.sinopse"></ion-input>
-  </ion-item>
+    <ion-item color="light" no-lines *ngIf="( formGroup.get('nome').hasError('minlength') || formGroup.get('nome').hasError('pattern') || formGroup.get('nome').hasError('required') ) && formGroup.get('nome').touched">
+      <div class="error" *ngIf="formGroup.get('nome').hasError('required') && formGroup.get('nome').touched">
+        Nome é Obrigatório.
+      </div>
+      <div class="error" *ngIf="formGroup.get('nome').hasError('pattern') && formGroup.get('nome').touched">
+        Nome não pode conter número.
+      </div>
+    </ion-item>
 
-  <ion-item>
-    <ion-label flooting>Classificação:</ion-label>
-    <ion-input type="text" [(ngModel)]="evento.classificacao"></ion-input>
-  </ion-item>
-    
-  <ion-item>
-    <ion-label>Data</ion-label>
-    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="evento.data"></ion-datetime>
-  </ion-item>
+    <ion-item>
+      <ion-label flooting>Sinopse:</ion-label>
+      <ion-input type="text" formControlName="sinopse" [(ngModel)]="evento.sinopse"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label>Hora inicial</ion-label>
-    <ion-datetime displayFormat="HH:mm" [(ngModel)]="evento.horaInicial"></ion-datetime>
-  </ion-item>
+    <ion-item>
+      <ion-label flooting>Classificação:</ion-label>
+      <ion-select [(ngModel)]="evento.classificacao" formControlName="classificacao">
+        <ion-option value=0>Livre</ion-option>
+        <ion-option value=1>A partir de 10 anos</ion-option>
+        <ion-option value=2>A partir de 12 anos</ion-option>
+        <ion-option value=3>A partir de 14 anos</ion-option>
+        <ion-option value=4>A partir de 16 anos</ion-option>
+        <ion-option value=5>A partir de 18 anos</ion-option>
+      </ion-select>
+    </ion-item>
 
-  <ion-item>
-    <ion-label>Hora final</ion-label>
-    <ion-datetime displayFormat="HH:mm" [(ngModel)]="evento.horaFinal"></ion-datetime>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label>Valor</ion-label>
-    <ion-input type="text" name="money" [(ngModel)]="evento.valorIngresso" placeholder="(R$) Real" (keyup)="amountChange()"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label>Data</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" formControlName="data" [(ngModel)]="evento.data"></ion-datetime>
+    </ion-item>
 
-  <ion-item>
-    <ion-icon name="image" item-start></ion-icon>
-    <input type="file" accept="image/*" (change)="onPhoto($event)"/>
-  </ion-item>
-            
+    <ion-item color="light" no-lines *ngIf="( formGroup.get('data').hasError('minlength') || 
+                                              formGroup.get('data').hasError('pattern') || 
+                                              formGroup.get('data').hasError('required') ) && 
+                                              formGroup.get('data').touched">
+      <div class="error" *ngIf="formGroup.get('data').hasError('required') && formGroup.get('data').touched">
+        Escolha uma Data!
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Hora inicial</ion-label>
+      <ion-datetime displayFormat="HH:mm" formControlName="horaInicial" [(ngModel)]="evento.horaInicial"></ion-datetime>
+    </ion-item>
+
+    <ion-item color="light" no-lines *ngIf="( formGroup.get('horaInicial').hasError('minlength') || 
+                                              formGroup.get('horaInicial').hasError('pattern') || 
+                                              formGroup.get('horaInicial').hasError('required') ) && 
+                                              formGroup.get('horaInicial').touched">
+      <div class="error" *ngIf="formGroup.get('horaInicial').hasError('required') && formGroup.get('horaInicial').touched">
+        Escolha a Hora Inicial!
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Hora final</ion-label>
+      <ion-datetime displayFormat="HH:mm" formControlName="horaFinal" [(ngModel)]="evento.horaFinal"></ion-datetime>
+    </ion-item>
+
+    <ion-item color="light" no-lines *ngIf="( formGroup.get('horaFinal').hasError('minlength') || 
+                                              formGroup.get('horaFinal').hasError('pattern') || 
+                                              formGroup.get('horaFinal').hasError('required') ) && 
+                                              formGroup.get('horaFinal').touched">
+      <div class="error" *ngIf="formGroup.get('horaFinal').hasError('required') && formGroup.get('horaFinal').touched">
+        Escolha a Hora Final!
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Valor</ion-label>
+      <ion-input type="text" name="money" formControlName="valorIngresso" [(ngModel)]="evento.valorIngresso" placeholder="(R$) Real"
+        (keyup)="amountChange()"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="image" item-start></ion-icon>
+      <input type="file" accept="image/*" (change)="onPhoto($event)" />
+    </ion-item>
+  </form>
+
 </ion-content>

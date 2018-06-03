@@ -17,7 +17,7 @@ import { Usuario } from '../../models/usuario';
   templateUrl: 'registro.html',
 })
 export class RegistroPage {
-  usuario = {} as Usuario;
+  usuario:any = {} as Usuario;
 
   constructor( private authService: AuthService,
     private usuarioService: UsuarioService,
@@ -35,7 +35,7 @@ export class RegistroPage {
 
           this.authService.criarConta(this.usuario).then((retorno: any) => {
             retorno.sendEmailVerification().then(()=> {
-              let usuario = {} as Usuario;
+              let usuario:any = {} as Usuario;
               usuario.email = this.usuario.email;
               usuario.tipoUsuario = false;
               this.usuarioService.salvar(retorno.uid, usuario).then(() =>{
