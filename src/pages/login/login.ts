@@ -20,6 +20,7 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 export class LoginPage {
 
   usuario = {} as Usuario;
+  EMAILPATTERN = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
   formGroup;
 
   constructor(public navCtrl: NavController, 
@@ -27,9 +28,8 @@ export class LoginPage {
     private authService: AuthService,
     public toastCtrl: ToastController,
     private formBuilder: FormBuilder) {
-      let EMAILPATTERN = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
       this.formGroup = formBuilder.group({
-        email:new FormControl('', Validators.compose([Validators.required, Validators.pattern(EMAILPATTERN)])),
+        email:new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.EMAILPATTERN)])),
         senha:new FormControl('', Validators.compose([Validators.minLength(6), Validators.required])),
       })
   }
@@ -46,6 +46,24 @@ export class LoginPage {
   logar(){
 
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
+
+    if (this.usuario.email === null || this.usuario.email === '') {
+      toast.setMessage('Insira um E-mail Valido!');
+      toast.present();
+      return;
+    } else if (this.EMAILPATTERN.test(this.usuario.email) === false) {
+      toast.setMessage('Email Invalido');
+      toast.present();
+      return;
+    } else if (this.usuario.senha === null || this.usuario.senha === '') {
+      toast.setMessage('Insira a Senha!');
+      toast.present();
+      return;
+    } else if (this.usuario.senha.length < 6) {
+      toast.setMessage('Senha precisa ter no minimo 6 caracteres!');
+      toast.present();
+      return;
+    } 
 
     this.authService.logar(this.usuario).then((retorno)=> {
       if(retorno.emailVerified){

@@ -22,7 +22,7 @@ export class NovoEventoInformacoesPage {
 
   formGroup;
   public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-
+  NOME_PARTERN = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/;
   evento: any;
   tituloPagina: string;
   filePhoto: File;
@@ -35,11 +35,11 @@ export class NovoEventoInformacoesPage {
     private utils: UtilsProvider,
     private formBuilder: FormBuilder) {
       
-    let NOME_PARTERN = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/;
+    
     this.evento =  this.navParams.data.evento || {};
     this.setarTituloPagina()
     this.formGroup = formBuilder.group({
-      nome: new FormControl('', Validators.compose([Validators.required, Validators.pattern(NOME_PARTERN)])),
+      nome: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.NOME_PARTERN)])),
       data:new FormControl('', Validators.compose([Validators.required])),
       horaInicial:new FormControl('', Validators.compose([Validators.required])),
       horaFinal:new FormControl('', Validators.compose([Validators.required])),
@@ -59,6 +59,30 @@ export class NovoEventoInformacoesPage {
   }
 
   openPage() {
+    let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
+
+    if(this.evento.nome === null || this.evento.nome === '') {
+      toast.setMessage('Nome é Obrigatório');
+      toast.present();
+      return;
+    } else if (this.NOME_PARTERN.test(this.evento.nome) == false) {
+      toast.setMessage('Nome é invalido');
+      toast.present();
+      return;
+    } else if (this.evento.data === null || this.evento.data === '') {
+      toast.setMessage('Data é Obrigatória');
+      toast.present();
+      return;
+    } else if (this.evento.horaInicial === null || this.evento.horaInicial === '') {
+      toast.setMessage('Hora Inicial é Obrigatória');
+      toast.present();
+      return;
+    } else if (this.evento.horaFinal === null || this.evento.horaFinal === '') {
+      toast.setMessage('Hora Final é Obrigatória');
+      toast.present();
+      return;
+    }
+
     let alert = this.alertCtrl.create({ 
       title: 'Confirmação de informações do evento',
       message: 'Confirma as informações: Nome do evento: '+ this.evento.nome +
@@ -75,8 +99,7 @@ export class NovoEventoInformacoesPage {
         {
           text: 'Confirmar',
           handler: () => {
-            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
-
+            
             if (this.filePhoto != null) {
               this.confirmarEventoComFoto(toast);
             }else{
