@@ -61,7 +61,7 @@ export class NovoEventoInformacoesPage {
   openPage() {
     let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom'});
 
-    if(this.evento.nome === null || this.evento.nome === '') {
+    if(this.evento.nome === undefined || this.evento.nome === null || this.evento.nome === '') {
       toast.setMessage('Nome é Obrigatório');
       toast.present();
       return;
@@ -69,15 +69,15 @@ export class NovoEventoInformacoesPage {
       toast.setMessage('Nome é invalido');
       toast.present();
       return;
-    } else if (this.evento.data === null || this.evento.data === '') {
+    } else if (this.evento.data === undefined || this.evento.data === null || this.evento.data === '') {
       toast.setMessage('Data é Obrigatória');
       toast.present();
       return;
-    } else if (this.evento.horaInicial === null || this.evento.horaInicial === '') {
+    } else if (this.evento.horaInicial === undefined || this.evento.horaInicial === null || this.evento.horaInicial === '') {
       toast.setMessage('Hora Inicial é Obrigatória');
       toast.present();
       return;
-    } else if (this.evento.horaFinal === null || this.evento.horaFinal === '') {
+    } else if (this.evento.horaFinal === undefined || this.evento.horaFinal === null || this.evento.horaFinal === '') {
       toast.setMessage('Hora Final é Obrigatória');
       toast.present();
       return;

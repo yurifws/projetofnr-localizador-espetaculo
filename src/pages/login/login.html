@@ -22,30 +22,11 @@
       <ion-input type="text" formControlName="email" id="email" [(ngModel)]="usuario.email"></ion-input>
     </ion-item>
 
-    <ion-item color="light" no-lines *ngIf="( formGroup.get('email').hasError('minlength') || formGroup.get('email').hasError('pattern') || formGroup.get('email').hasError('required') ) && formGroup.get('email').touched">
-      <div class="error" *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">
-        Email é Obrigatório.
-      </div>
-      <div class="error" *ngIf="formGroup.get('email').hasError('pattern') && formGroup.get('email').touched">
-        Email Invalido.
-      </div>
-    </ion-item>
-
     <ion-item>
 
       <ion-icon item-left small name="lock"></ion-icon>
       <ion-label floating>Senha</ion-label>
       <ion-input type="password" formControlName="senha" id="senha" [(ngModel)]="usuario.senha"></ion-input>
-    </ion-item>
-
-    <ion-item color="light" no-lines *ngIf="( formGroup.get('senha').hasError('minlength') || formGroup.get('senha').hasError('required') ) && formGroup.get('email').touched">
-
-      <div class="error" *ngIf="formGroup.get('senha').hasError('required') && formGroup.get('senha').touched">
-        Email é Obrigatório.
-      </div>
-      <div class="error" *ngIf="formGroup.get('senha').hasError('minlength') && formGroup.get('senha').touched">
-        Senha deve possuir no minimo 6 caracteres.
-      </div>
     </ion-item>
 
     <button ion-button block round margin-top (click)="logar()">Logar</button>

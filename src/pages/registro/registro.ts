@@ -24,7 +24,9 @@ export class RegistroPage {
     private usuarioService: UsuarioService,
     private toastCtrl: ToastController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams) {      
+      this.usuario.email = '';
+      this.usuario.senha = '';
   }
 
   ionViewDidLoad() {

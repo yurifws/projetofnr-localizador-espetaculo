@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { EventoService } from '../evento-service/evento-service';
+import firebase from 'firebase';
 
 /*
   Generated class for the IngressoProvider provider.

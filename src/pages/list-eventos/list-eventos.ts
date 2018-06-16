@@ -52,7 +52,7 @@ export class ListEventosPage {
   }
 
   temInteresse(evento, interesse) {
-    if (evento.interessado === undefined) {
+    if (evento.interessado === undefined || evento.interessado !== interesse) {
       let interessado: any = {};
       interessado.evento = evento.key;
       interessado.usuario = this.usuarioService.getUsuarioKey();

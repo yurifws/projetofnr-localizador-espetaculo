@@ -32,6 +32,9 @@ export class LoginPage {
         email:new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.EMAILPATTERN)])),
         senha:new FormControl('', Validators.compose([Validators.minLength(6), Validators.required])),
       })
+
+      this.usuario.email = '';
+      this.usuario.senha = '';
   }
 
   ionViewDidLoad() {

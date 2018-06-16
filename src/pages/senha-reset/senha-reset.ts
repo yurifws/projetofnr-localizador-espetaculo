@@ -21,6 +21,7 @@ export class SenhaResetPage {
     public navParams: NavParams, 
     private authService:AuthService, 
     public toastCtrl: ToastController) {
+      this.email = '';
   }
 
   ionViewDidLoad() {
