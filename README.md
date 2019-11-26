@@ -1,7 +1,7 @@
 # projetofnr-localizador-espetaculo
 
 Aplicativo Localize Eventos
-link: https://play.google.com/store/apps/details?id=br.com.localizadorevento&hl=pt_BR
+- link: https://play.google.com/store/apps/details?id=br.com.localizadorevento&hl=pt_BR
 
 Projeto de TCC final onde fizemos um app de localizaçao de eventos.
 
