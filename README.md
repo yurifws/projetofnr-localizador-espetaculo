@@ -18,10 +18,7 @@ Interface com o usuário:
 
 Foi utilizado:
   - Ionic framework
-  - Firebase
-      --Authentication
-      --RealTime Database
-      --Storage
+  - Firebase(Authentication, RealTime Database, Storage)
   - API Google Maps(Geolocation)
 
 
